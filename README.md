@@ -1,5 +1,5 @@
 # Duck Hunt Remake with Motion Controlls
 
-Android app developer - Peter Gerasimov (@petergerasimov)
+<p>Android app developer - Peter Gerasimov (@petergerasimov)</p>
 Backend developer - Alexander Petrov (@kocetomad)
 Game developer - Teodor Stanishev (@)
