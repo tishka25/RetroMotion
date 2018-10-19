@@ -26,7 +26,6 @@ class GUI {
   update() {
     if (this.game.lifes <= 0) //End Game
       this.gameOver();
-
     if (this.start) {
       this.game.update();
       this.textHandler();
@@ -38,7 +37,7 @@ class GUI {
     this.start = true;
   }
   gameOver() {
-    this.image = loadImage("assets/button.png");
+    // this.image = loadImage("assets/button.png");
     this.start = false;
     this.game.score = 0;
     this.game.lifes = 5;
@@ -50,6 +49,7 @@ class GUI {
     this.game.user_name = this.inp.value();
     this.button.hide();
     this.inp.hide();
+    this.qrcode.hide();
     this.startGame();
   }
   drawing() {

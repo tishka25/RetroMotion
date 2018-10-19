@@ -32,7 +32,7 @@ class Cursor{
       this.positionX+=serverX;
       this.positionY+=serverY;
     }
-    if (this.socket.connected) {
+    if (this.socket.disconnected) {
       this.positionX=mouseX;
       this.positionY=mouseY;
       serverShot = mouseIsPressed;
