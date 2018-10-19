@@ -14,7 +14,7 @@ class Cursor{
 
   begin(){
     //Socket connection
-    this.socket=io.connect(document.location.href);//document.location.href
+    this.socket=io.connect(document.location.host);//document.location.href
     this.socket.on('dataIn', function (data){
       serverX=data.x;
       serverY=data.y;

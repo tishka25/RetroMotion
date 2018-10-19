@@ -2,9 +2,12 @@
 function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
-  rectMode(CENTER);
 }
 
 function draw() {
-   
+   background(0);
+}
+
+function windowResized(){
+  resizeCanvas(windowWidth, windowHeight);
 }

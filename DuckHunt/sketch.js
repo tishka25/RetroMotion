@@ -28,3 +28,7 @@ function draw() {
     cursor.update();
     gui.update();
 }
+
+function windowResized(){
+  resizeCanvas(windowWidth, windowHeight);
+}

@@ -11,7 +11,7 @@ class GUI {
 
   begin() {
     rectMode(CENTER);
-    var hrefToConnect = document.location.href.replace('3' , '4');
+    var hrefToConnect = document.location.host.replace('3' , '4');
     this.drawing();
     this.qrMaker();
 
@@ -19,7 +19,6 @@ class GUI {
     this.inp.position(width*0.5 - this.inp.width*0.5,height*0.5 - (this.inp.height*0.5 - 150));
     this.button = createButton("Start!").position(this.inp.x, this.inp.y + this.inp.height + 10);
     this.button.mousePressed(this.submitName.bind(this));
-
     this.game.begin();
   }
 
@@ -43,6 +42,7 @@ class GUI {
     this.game.lifes = 5;
     this.button.show();
     this.inp.show();
+    this.game.begin();
   }
 
   submitName() {
