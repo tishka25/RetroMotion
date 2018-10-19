@@ -57,7 +57,7 @@ else
 fi;
 
 
-docker run -d --expose=3000 --expose=4000 -p $p:3000 -p $s:4000 -v $d:/Node $u $n noxid/ducks:v1
+docker run -d --expose=3000 --expose=4000 -p $p:3000 -p $s:4000 -v $d:/Node $u $n noxid/ducks:v2
 sleep 1
 docker exec -d -it $add bash ./Test.sh
 sleep 5
