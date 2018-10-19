@@ -21,12 +21,10 @@ function setup() {
 
   frameRate(60);
   rectMode(CENTER);
-
 }
 
 function draw() {
     background(backgroundColor[0],backgroundColor[1],backgroundColor[2]);
     cursor.update();
     gui.update();
-    // duckHunt.update();
 }
