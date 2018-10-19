@@ -33,7 +33,7 @@ function newConnection(socket){
 
 // });
 
-app.use(express.static("DuckHunt"));
+app.use('/duckhunt',express.static("DuckHunt"));
 
 
 
