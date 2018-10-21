@@ -151,14 +151,6 @@ class World {
     }
   }
 
-  textHandler() {
-    textSize(26);
-    text("Lifes: " + this.lifes, 60, 20);
-    text("Score: " + this.score, 60, 40);
-    text("High Score: " + this.highScore, 60, 60);
-  }
-
-
   addBird() {
     var bird = createSprite(random(width / 4, width - 100), height, this.cursorSize, this.cursorSize);
     bird.addAnimation("default", this.bird_animations[0]);
