@@ -54,15 +54,12 @@ function newConnection(socket){
   socket.on('scores',msg2);
   function msg2(data){
 
-    client.query("SELECT * FROM scores ORDER BY score DESC;", (err, res) => {
+    client.query("SELECT * FROM scores ORDER BY score DESC FETCH NEXT 5 ROW ONLY;", (err, res) => {
       if (err) {
         console.log(err.stack)
       } else {
         data=res.rows;
-        console.log(res.rows);
         io.sockets.emit('scores',data);
-        console.log(data);
-
       }
     // socket.broadcast.emit('dataIn',data);
   });
