@@ -1,7 +1,7 @@
 let serverX=0;
 let serverY=0;
 var serverShot=false;
-var _mouse = true;  // TODO remove 
+var _mouse = false;  // TODO remove 
 
 class Cursor{
   constructor(sprite){
@@ -32,11 +32,6 @@ class Cursor{
        this.positionY+serverY>height) && this.socket.connected){ //Warning
       this.positionX+=serverX;
       this.positionY+=serverY;
-    }
-    if (_mouse) {
-      this.positionX=mouseX;
-      this.positionY=mouseY;
-      serverShot = mouseIsPressed;
     }
 
     //Draw the cursor

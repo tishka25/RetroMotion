@@ -7,7 +7,7 @@ class GUI {
     this.game = game;
     this.image = loadImage("assets/button.png");
     this.qrcode = createDiv('');
-    this.hrefToConnect = document.location.host.replace('300' , '400') + "/controller";  }
+    this.hrefToConnect = document.location.host + "/controller";  }
 
   begin() {
     rectMode(CENTER);

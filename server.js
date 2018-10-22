@@ -85,7 +85,7 @@ const wss = new WebSocket.Server({ port: 4000 });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    //console.log('received: %s', message);
+    console.log('received: %s', message);
     curData=JSON.parse(message);
     //console.log(curData);
     // console.log(curData[2]);

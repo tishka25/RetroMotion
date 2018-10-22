@@ -3,28 +3,8 @@
 var xDif=0;
 var yDif=0;
 var sensitivity=1;
-
+var webSocket;
 //WEBSOCKET
-
-function openWSConnection(host) {
-  var webSocketURL = null;
-  webSocketURL = "ws://" + host;
-  console.log("openWSConnection::Connecting to: " + webSocketURL);
-  try {
-      webSocket = new WebSocket(webSocketURL);
-  } 
-  catch (exception) {
-      console.error("Failed to conncect");
-  }
-}
-
-function sendMessage(msg) {
-//   if (webSocket.readyState != WebSocket.OPEN) {
-//       console.error("webSocket is not open: " + webSocket.readyState);
-//       return;
-//   }
-  webSocket.send(msg);
-}
 
 ///////////
 
@@ -62,20 +42,40 @@ gn.init(args).then(function(){
 });
 
 ////////////////////
-
+var b =false;
 function setup() {
   var ip=document.location.host.replace('300','400');
-  openWSConnection(ip);
+  // openWSConnection(ip);
+  var  webSocketURL = "ws://" + ip;
+  webSocket= new WebSocket(webSocketURL);
   createCanvas(windowWidth, windowHeight); 
   frameRate(120);
   x=width/2;
   y=height/2;
+  
+  webSocket.onopen = function(){
+    // webSocket.send("["+xDif*sensitivity+","+yDif*sensitivity+","+ 0 +"]");
+    b = true;
+    console.log("OKUREEEC");
+  };
+  webSocket.onmessage= function(e){
+    console.log(e.data);
+  };
+
+  document.addEventListener("onunload",function(){
+    webSocket.close();
+  });
 }
 
 function draw() {
   //resizeCanvas(windowWidth, windowHeight); 
   background(255,0,0);
   rect(x,y,50,50);
+
+  if(b === true){
+    webSocket.send("["+yDif*-sensitivity+","+xDif*-sensitivity+","+ 0 +"]");
+  }
   //sendMessage("["+xDif*sensitivity+","+yDif*sensitivity+","+ shoot.pressed +"]");
-  sendMessage("["+xDif*sensitivity+","+yDif*sensitivity+","+ 0 +"]");
+  
+  // sendMessage("["+xDif*sensitivity+","+yDif*sensitivity+","+ 0 +"]");
 }
