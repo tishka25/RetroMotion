@@ -5,7 +5,34 @@ var cords=[0,0,0];
 var server=app.listen(3000,listening);
 var curData=[0,0];
 
-///socket
+///socket 
+
+//DB 
+const { Client } = require('pg');
+const client = new Client({
+  user: 'postgres',
+  host: '172.17.0.1',
+  database: 'duckhunt',
+  password: '123456',
+  port: 5432,
+})
+
+client.connect()
+//app.get('/gun', function (req, res) {
+client.query("INSERT INTO scores VALUES ('shterkata',12);", (err, res) => {
+  if (err) {
+    console.log(err.stack)
+  } else {
+    //console.log(res.rows[0])
+  }
+//})
+
+});
+
+
+
+
+
 var socket = require ('socket.io');
 
 var io=socket(server);
@@ -24,6 +51,23 @@ function newConnection(socket){
     console.log(data);
   }
 
+  socket.on('scores',msg2);
+  function msg2(data){
+
+    client.query("SELECT * FROM scores ORDER BY score DESC;", (err, res) => {
+      if (err) {
+        console.log(err.stack)
+      } else {
+        data=res.rows[0];
+        console.log(res.rows[0]);
+        io.sockets.emit('scores',data);
+        console.log(data);
+
+      }
+    // socket.broadcast.emit('dataIn',data);
+  });
+
+}
 }
 
 
@@ -34,6 +78,7 @@ function newConnection(socket){
 // });
 
 app.use('/duckhunt',express.static("DuckHunt"));
+app.use('/score',express.static("ScoreBoard"));
 
 
 
