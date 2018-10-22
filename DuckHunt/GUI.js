@@ -35,6 +35,8 @@ class GUI {
     this.start = true;
   }
   gameOver() {
+    console.log(this.game.user_name);
+    loadJSON('insert/'+this.game.user_name+'/'+this.game.score);
     // this.image = loadImage("assets/button.png");
     this.start = false;
     //Reset the score and lifes
