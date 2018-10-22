@@ -75,7 +75,7 @@ function newConnection(socket){
 
 app.use('/duckhunt',express.static("DuckHunt"));
 app.use('/score',express.static("ScoreBoard"));
-app.use('/score' , express.static("WebController"))
+app.use('/controller' , express.static("WebController"))
 
 
 
