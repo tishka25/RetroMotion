@@ -1,13 +1,13 @@
 var placeholder="placeholder";
 let HighScores=[0];
-
+var image;
 function setup() {
   this.socket=io.connect(document.location.host);//document.location.href
   this.socket.on('scores', function (data){
     HighScores=data;
   });
-
- 
+  image=loadImage("images.jpeg");
+  
   this.socket.emit('scores',HighScores);
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
@@ -21,13 +21,20 @@ function setup() {
   
 }
 
-function draw() {
-  background(255);
+function draw() { 
+  background(image);
   textSize(80);
   for(var i=0;i<HighScores.length;i++){
-    textSize(20 - i);
-    text((i+1)+ ":"+ HighScores[i].name + "with" + HighScores[i].score,width/2,  100 + (i*100));
+    if(HighScores[i] !== undefined){
+      fill(0+i*50, 200-i*40, 0);
+    textSize(80 - i*5);
+    text((i+1)+ ")"+ HighScores[i].name + ":" + HighScores[i].score,width/2.8,  200 + (i*150));
+    }
+    
   }
+  WakeUP();  
+  console.log(HighScores);
+
   // text('1st:'+HighScores[0].name,windowWidth/3.4 , windowHeight/5);
   
   // textSize(70);
@@ -40,4 +47,8 @@ function draw() {
   // text('4th:'+placeholder, windowWidth/2.6,  windowHeight/1.5);
   // text('5th:'+placeholder, windowWidth/2.6,  windowHeight/1.2);
 
+}
+
+function WakeUP(){
+  this.socket.emit('scores',HighScores);
 }
