@@ -1,8 +1,8 @@
 var placeholder="placeholder";
-let HighScores;
+let HighScores=[0];
 
 function setup() {
-  this.socket=io.connect(document.location.href);//document.location.href
+  this.socket=io.connect(document.location.host);//document.location.href
   this.socket.on('scores', function (data){
     HighScores=data;
   });
@@ -22,9 +22,9 @@ function setup() {
 }
 
 function draw() {
-  console.log(HighScores);
+  background(255);
   textSize(80);
-  text('1st:'+placeholder,windowWidth/3.4 , windowHeight/5);
+  text('1st:'+HighScores[0].name,windowWidth/3.4 , windowHeight/5);
   
   textSize(70);
   text('2nd:'+placeholder, windowWidth/3.1, windowHeight/3);

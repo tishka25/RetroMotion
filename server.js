@@ -58,8 +58,8 @@ function newConnection(socket){
       if (err) {
         console.log(err.stack)
       } else {
-        data=res.rows[0];
-        console.log(res.rows[0]);
+        data=res.rows;
+        console.log(res.rows);
         io.sockets.emit('scores',data);
         console.log(data);
 
