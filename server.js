@@ -18,6 +18,7 @@ const client = new Client({
 })
 
 client.connect()
+//TVA E ZA DEBUG ZA MOMENTA NE GO BARAYTE
 //app.get('/gun', function (req, res) {
 client.query("INSERT INTO scores VALUES ('shterkata',12);", (err, res) => {
   if (err) {
@@ -27,6 +28,22 @@ client.query("INSERT INTO scores VALUES ('shterkata',12);", (err, res) => {
   }
 //})
 });
+
+
+//SCORE INSERT FROM FRONTEND
+app.get('/duckhunt/insert/:name/:score', function (req, res) {
+  var data =req.params;
+  client.query("INSERT INTO scores VALUES ('"+data.name+"',"+data.score+");", (err, res) => {
+    if (err) {
+      console.log(err.stack)
+    } else {
+      //console.log(res.rows[0])
+    }
+  
+});
+});
+
+
 
 
 
