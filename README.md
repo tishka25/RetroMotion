@@ -6,6 +6,7 @@
 
 <h1>Source code diagram </h1>
 
-![duck hunt - remake-diagram](https://user-images.githubusercontent.com/22482021/47270974-fdc46380-d57b-11e8-9134-2a8f4b669ca0.png)
+![source-code-diagram](https://user-images.githubusercontent.com/22482021/47292719-93113780-d610-11e8-93d2-9bff130fd5b8.PNG)
+
 <h2>Dockerhub repo</h2>
 https://hub.docker.com/r/noxid/ducks/
