@@ -7,7 +7,7 @@ class GUI {
     this.game = game;
     this.image = loadImage("assets/button.png");
     this.qrcode = createDiv('');
-    this.hrefToConnect = document.location.host + "/controller";  }
+    this.hrefToConnect = document.location.host.replace('300' , '400') + "/controller";  }
 
   begin() {
     rectMode(CENTER);
@@ -37,10 +37,14 @@ class GUI {
   gameOver() {
     // this.image = loadImage("assets/button.png");
     this.start = false;
+    //Reset the score and lifes
     this.game.score = 0;
     this.game.lifes = 5;
+    //Show the input and button
     this.button.show();
     this.inp.show();
+    this.qrcode.show();
+    //Start the timers in the game
     this.game.begin();
   }
 

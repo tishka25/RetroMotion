@@ -26,7 +26,6 @@ client.query("INSERT INTO scores VALUES ('shterkata',12);", (err, res) => {
     //console.log(res.rows[0])
   }
 //})
-
 });
 
 
@@ -76,6 +75,7 @@ function newConnection(socket){
 
 app.use('/duckhunt',express.static("DuckHunt"));
 app.use('/score',express.static("ScoreBoard"));
+app.use('/score' , express.static("WebController"))
 
 
 
