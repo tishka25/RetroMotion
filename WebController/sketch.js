@@ -1,43 +1,81 @@
-var placeholder="placeholder";
-let HighScores=[0];
+//CONTROLER
+
+var xDif=0;
+var yDif=0;
+var sensitivity=1;
+
+//WEBSOCKET
+
+function openWSConnection(host) {
+  var webSocketURL = null;
+  webSocketURL = "ws://" + host;
+  console.log("openWSConnection::Connecting to: " + webSocketURL);
+  try {
+      webSocket = new WebSocket(webSocketURL);
+  } 
+  catch (exception) {
+      console.error("Failed to conncect");
+  }
+}
+
+function sendMessage(msg) {
+//   if (webSocket.readyState != WebSocket.OPEN) {
+//       console.error("webSocket is not open: " + webSocket.readyState);
+//       return;
+//   }
+  webSocket.send(msg);
+}
+
+///////////
+
+//GYROSCOPE
+
+var x=0;
+var y=0;
+
+var args = {
+	frequency:5,
+	gravityNormalized:true,
+	orientationBase:GyroNorm.GAME,
+	decimalCount:2,
+	logger:null,
+	screenAdjusted:false
+};
+
+
+var gn = new GyroNorm();
+
+gn.init(args).then(function(){
+  gn.start(function(data){
+
+    if(x>width)x=width;
+    else if(x<0)x=0;
+    if(y>height)y=height;
+    else if(y<0)y=0;
+    xDif=data.dm.alpha;
+    yDif=data.dm.gamma;
+    y-=data.dm.alpha;
+    x-=data.dm.gamma;
+  });
+}).catch(function(e){
+  
+});
+
+////////////////////
 
 function setup() {
-  this.socket=io.connect(document.location.host);//document.location.href
-  this.socket.on('scores', function (data){
-    HighScores=data;
-  });
-
- 
-  this.socket.emit('scores',HighScores);
-  createCanvas(windowWidth, windowHeight);
-  frameRate(60);
-  rectMode(CENTER);
-  let data={
-    x:mouseX,
-    y:mouseY,
-    shot:false
-  };
-  this.socket.emit('dataIn',data);
-  
+  var ip=document.location.host.replace('300','400');
+  openWSConnection(ip);
+  createCanvas(windowWidth, windowHeight); 
+  frameRate(120);
+  x=width/2;
+  y=height/2;
 }
 
 function draw() {
-  background(255);
-  textSize(80);
-  for(var i=0;i<HighScores.length;i++){
-    textSize(20 - i);
-    text((i+1)+ ":"+ HighScores[i].name + "with" + HighScores[i].score,width/2,  100 + (i*100));
-  }
-  // text('1st:'+HighScores[0].name,windowWidth/3.4 , windowHeight/5);
-  
-  // textSize(70);
-  // text('2nd:'+placeholder, windowWidth/3.1, windowHeight/3);
-  
-  // textSize(60);
-  // text('3rd:'+placeholder, windowWidth/2.8, windowHeight/2);
-
-  // textSize(45);
-  // text('4th:'+placeholder, windowWidth/2.6,  windowHeight/1.5);
-  // text('5th:'+placeholder, windowWidth/2.6,  windowHeight/1.2);
-
+  //resizeCanvas(windowWidth, windowHeight); 
+  background(255,0,0);
+  rect(x,y,50,50);
+  //sendMessage("["+xDif*sensitivity+","+yDif*sensitivity+","+ shoot.pressed +"]");
+  sendMessage("["+xDif*sensitivity+","+yDif*sensitivity+","+ 0 +"]");
 }
