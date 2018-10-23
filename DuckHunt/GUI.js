@@ -44,8 +44,7 @@ class GUI {
     //Reset the score and lifes
     this.game.score = 0;
     this.game.lifes = 5;
-    //Show the input and button
-    this.button.show();
+    //Show the input
     this.inp.show();
     this.qrcode.show();
     //Start the timers in the game
