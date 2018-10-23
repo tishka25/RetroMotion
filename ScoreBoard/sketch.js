@@ -1,17 +1,17 @@
 var placeholder="placeholder";
 let HighScores=[0];
-var image;
+var imageh;
 var clouds;
 var xClouds;
 var yClouds;
 function setup() {
   xClouds=-30;
-  yClouds=random(20,windowHeight/2);
+  yClouds=random(20,windowHeight);
   this.socket=io.connect(document.location.host);//document.location.href
   this.socket.on('scores', function (data){
     HighScores=data;
   });
-  image=loadImage("bck.jpg");
+  imageh=loadImage("bck.jpg");
   clouds=loadImage("clouds.png");
   this.socket.emit('scores',HighScores);
   createCanvas(windowWidth, windowHeight);
@@ -27,8 +27,15 @@ function setup() {
 }
 
 function draw() { 
-  background(image);
+  background(imageh);
   textSize(80);
+  image(clouds,xClouds,yClouds,400,200);
+  xClouds+=0.5;
+  if (xClouds>=windowWidth+500){
+    xClouds=-500;
+    yClouds=random(20,windowHeight/3);
+
+  }
   for(var i=0;i<HighScores.length;i++){
     if(HighScores[i] !== undefined){
       fill(0+i*50, 200-i*40, 0);
@@ -39,7 +46,8 @@ function draw() {
   }
   WakeUP();  
   console.log(HighScores);
-  Image(clouds,);
+  
+  
   // text('1st:'+HighScores[0].name,windowWidth/3.4 , windowHeight/5);
   
   // textSize(70);
