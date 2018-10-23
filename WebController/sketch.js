@@ -42,40 +42,45 @@ gn.init(args).then(function(){
 });
 
 ////////////////////
-var b =false;
-function setup() {
+var _connected =false;
+var shot=false;
+
+function webSocketsSetup(){
   var ip=document.location.host.replace('300','400');
-  // openWSConnection(ip);
   var  webSocketURL = "ws://" + ip;
   webSocket= new WebSocket(webSocketURL);
-  createCanvas(windowWidth, windowHeight); 
-  frameRate(120);
-  x=width/2;
-  y=height/2;
-  
   webSocket.onopen = function(){
-    // webSocket.send("["+xDif*sensitivity+","+yDif*sensitivity+","+ 0 +"]");
-    b = true;
+    _connected = true;
     console.log("OKUREEEC");
   };
   webSocket.onmessage= function(e){
     console.log(e.data);
   };
 
-  document.addEventListener("onunload",function(){
+  window.onbeforeunload = function(e) {
     webSocket.close();
-  });
+  };
+  window.onunload = function(e) {
+    webSocket.close();
+  };
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight); 
+  frameRate(60);
+  x=width/2;
+  y=height/2;
 }
 
 function draw() {
-  //resizeCanvas(windowWidth, windowHeight); 
   background(255,0,0);
-  rect(x,y,50,50);
-
-  if(b === true){
-    webSocket.send("["+yDif*-sensitivity+","+xDif*-sensitivity+","+ 0 +"]");
+  if(_connected === true){
+    webSocket.send("["+yDif*-sensitivity+","+xDif*-sensitivity+","+ shot +"]");
   }
-  //sendMessage("["+xDif*sensitivity+","+yDif*sensitivity+","+ shoot.pressed +"]");
-  
-  // sendMessage("["+xDif*sensitivity+","+yDif*sensitivity+","+ 0 +"]");
+  //Reset the boolean 'shot'
+  shot=false;
+}
+
+function mousePressed(){
+  shot=true;
 }
