@@ -16,12 +16,14 @@ class GUI {
 
     this.inp = createInput('');
     this.inp.position(width * 0.5 - this.inp.width * 0.5, height * 0.5 - (this.inp.height * 0.5 - 150));
-    this.button = createButton("Start!").position(this.inp.x, this.inp.y + this.inp.height + 10);
-    this.button.mousePressed(this.submitName.bind(this));
+    
     this.game.begin();
   }
 
   update() {
+    if(keyCode===ENTER){
+      this.submitName();
+    }
     if (this.game.lifes <= 0) //End Game
       this.gameOver();
     if (this.start) {
@@ -51,17 +53,15 @@ class GUI {
   }
 
   submitName() {
-    this.game.user_name = this.inp.value();
-    this.button.hide();
-    this.inp.hide();
-    this.qrcode.hide();
-    this.startGame();
+    if(this.inp.value()!=""){
+      this.game.user_name = this.inp.value();
+      this.inp.hide();
+      this.qrcode.hide();
+      this.startGame();
+    }
   }
   drawing() {
     background(120);
-    // this.image.width = width / 2;
-    // this.image.height = height / 2;
-    // image(this.image, this.image.width / 2, this.image.height / 2);
   }
 
   textHandler() {
