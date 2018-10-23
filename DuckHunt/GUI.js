@@ -27,6 +27,7 @@ class GUI {
     if (this.game.lifes <= 0) //End Game
       this.gameOver();
     if (this.start) {
+      console.log("Game is working");
       this.game.update();
       this.textHandler();
     } else {
@@ -37,18 +38,8 @@ class GUI {
     this.start = true;
   }
   gameOver() {
-    console.log(this.game.user_name);
     loadJSON('insert/'+this.game.user_name+'/'+this.game.score);
-    // this.image = loadImage("assets/button.png");
-    this.start = false;
-    //Reset the score and lifes
-    this.game.score = 0;
-    this.game.lifes = 5;
-    //Show the input
-    this.inp.show();
-    this.qrcode.show();
-    //Start the timers in the game
-    this.game.begin();
+    location.reload(false);
   }
 
   submitName() {

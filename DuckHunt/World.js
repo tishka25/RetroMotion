@@ -8,7 +8,7 @@ class World {
     this.dirX = [0];
     this.dirY = [0];
     this.score = 0;
-    this.stepToGiveLife = 5000;
+    this.stepToGiveLife = 10;
     this.highScore = 0;
     this.changeDirTimer = 500;
     this.spawnBirdTimer = 1000;
@@ -62,7 +62,7 @@ class World {
       allSprites[i].changeAnimation("shot");
       allSprites[i].setVelocity(0, 0);
       bck.play();
-      this.score += 500;
+      this.score++;
       setTimeout(function () {
         allSprites[i].changeAnimation("kill");
       }, 300);
@@ -71,10 +71,10 @@ class World {
 
 
   //Small functions
-  pickNewDirection(i) {
-    this.dirX[i] = (random(-5 - (this.score / 2000), 5 + (this.score / 2000)));
-    this.dirY[i] = (random(0 - (this.score / 2000), -1 - (this.score / 2000)));
-  }
+  pickNewDirection(i){
+    this.dirX[i] = (random(-8 - (this.score / 5), 8 + (this.score / 5)));
+    this.dirY[i] = (random(-1 - (this.score / 5), -2 - (this.score / 5)));
+}
   //End
 
 
@@ -93,34 +93,28 @@ class World {
     }
 
     //Take another time after changing the direction
-    this.changeDirTimer = this.timerHandler(500, 1000, 2);
+    this.changeDirTimer = this.timerHandler(500, 1000, 20);
     //Recursive timeout
     this.changeDirectionInverval = setTimeout(this.changeDirection.bind(this), this.changeDirTimer);
   }
 
   spawnBird() {
-    let p = new Promise(function(resolve , reject){
-
-    });
-    let f = int(this.score* 0.005);
-    if(allSprites.length<f){
-        this.addBird().changeAnimation("default");
+    if(allSprites.length < int(this.score * 0.1) + 1 ){
+      this.addBird().changeAnimation("default");
     }
-
     //Handle all "bugged" and killed objects
     this.garbageCollector();
     //Take another time after changing the direction
-    this.spawnBirdTimer = this.timerHandler(2000, 4000, 5);
-    //Recursive timeout
+    this.spawnBirdTimer = this.timerHandler(2000, 4000, 50);
+  //Recursive timeout
     this.spawnBirdInterval = setTimeout(this.spawnBird.bind(this), this.spawnBirdTimer);
   }
 
 
   //All little handlers
   timerHandler(min, max, factorOfScore) {
-    factorOfScore = factorOfScore / 1000;
     return random(min - (this.score * factorOfScore), max - (this.score * factorOfScore));
-  }
+}
 
   garbageCollector() {
     for (let i = 0; i < allSprites.length; i++) {
@@ -137,17 +131,14 @@ class World {
   }
 
   scoreHandler(index) {
-    if (allSprites[index].position.y < 0 && this.score > 0) {
+    if (allSprites[index].position.y < 0) {
       allSprites[index].remove();
-      // this.score--;
+      console.log('Killed a duck');
       this.lifes--;
-    }
-    if (this.score >= this.highScore) {
-      this.highScore = this.score;
     }
     if (this.score >= this.stepToGiveLife) {
       this.lifes++;
-      this.stepToGiveLife += 5000;
+      this.stepToGiveLife += 10;
     }
   }
 
@@ -166,6 +157,7 @@ class World {
 class Background {
   constructor(frames) {
     this.frames = frames;
+    this.stepsToFlicker=20;
   }
 
   begin() {
@@ -176,6 +168,12 @@ class Background {
   }
 
   update() {
+    if(duckHunt.score>=this.stepsToFlicker){
+      tint(random(255),random(255), random(255));
+      setTimeout(()=>this.stepsToFlicker+=10 , 1000);
+    }else{
+      noTint();
+    }
     this.frames.draw(width / 2, height - this.frames.getHeight() * 0.5);
   }
   stop() {

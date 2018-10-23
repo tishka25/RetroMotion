@@ -33,14 +33,14 @@ function draw() {
   xClouds+=0.5;
   if (xClouds>=windowWidth+500){
     xClouds=-500;
-    yClouds=random(20,windowHeight/3);
+    yClouds=random(20,windowHeight/5);
 
   }
   for(var i=0;i<HighScores.length;i++){
     if(HighScores[i] !== undefined){
       fill(0+i*50, 200-i*40, 0);
     textSize(80 - i*5);
-    text((i+1)+ ")"+ HighScores[i].name + ":" + HighScores[i].score,width/2.8,  200 + (i*150));
+    text((i+1)+ ")"+ HighScores[i].name + ":" + HighScores[i].score,10,  100 + (i*100));
     }
     
   }
