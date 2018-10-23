@@ -76,6 +76,7 @@ function setup() {
   // gun.push(loadImage("data/shotframe1.png") , loadImage("data/shotframe2.png"));
   gun = loadAnimation("data/shotframe1.png" , "data/shotframe2.png");
   gun.stop();
+  webSocketsSetup();
   blackBox = ()=> rect(0 , height - ((height/(height - mouseX)) * 100) , width, (height/(height - mouseX)) * 100);
   x=width/2;
   y=height/2;
