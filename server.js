@@ -90,10 +90,11 @@ function newConnection(socket){
 
 // });
 
-app.use('/duckhunt',express.static("DuckHunt"));
+app.use('/duckhunt',express.static("Games/DuckHunt"));
 app.use('/score',express.static("ScoreBoard"));
-app.use('/controller' , express.static("WebController"))
-app.use('/fruitninja',express.static("FruitNinja"));
+app.use('/controller' , express.static("WebController"));
+app.use('/fruitninja',express.static("Games/FruitNinja"));
+app.use('/racing' , express.static("Games/Racing"));
 
 
 const WebSocket = require('ws');
