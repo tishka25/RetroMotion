@@ -93,7 +93,7 @@ function newConnection(socket){
 app.use('/duckhunt',express.static("DuckHunt"));
 app.use('/score',express.static("ScoreBoard"));
 app.use('/controller' , express.static("WebController"))
-
+app.use('/fruitninja',express.static("FruitNinja"));
 
 
 const WebSocket = require('ws');
