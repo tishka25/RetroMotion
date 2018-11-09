@@ -64,7 +64,7 @@ function newConnection(socket){
     data.shot=curData[2];
     io.sockets.emit('dataIn',data);
     // socket.broadcast.emit('dataIn',data);
-    console.log(data);
+    // console.log(data);
   }
 
   socket.on('scores',msg2);
@@ -102,7 +102,7 @@ const wss = new WebSocket.Server({ port: 4000 });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
+    // console.log('received: %s', message);
     curData=JSON.parse(message);
     //console.log(curData);
     // console.log(curData[2]);

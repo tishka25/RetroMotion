@@ -14,7 +14,7 @@ var x=0;
 var y=0;
 
 var args = {
-	frequency:5,
+	frequency:10,
 	gravityNormalized:true,
 	orientationBase:GyroNorm.GAME,
 	decimalCount:2,
@@ -47,6 +47,7 @@ var shot=false;
 var backgroundImage;
 var gun;
 var blackBox;
+var drawn = false;
 
 
 function webSocketsSetup(){
@@ -71,34 +72,29 @@ function webSocketsSetup(){
 
 function setup() {
   createCanvas(windowWidth, windowHeight); 
-  frameRate(60);
-  backgroundImage = loadImage("data/background.png");
-  // gun.push(loadImage("data/shotframe1.png") , loadImage("data/shotframe2.png"));
-  gun = loadAnimation("data/shotframe1.png" , "data/shotframe2.png");
-  gun.stop();
+  frameRate(120);
+  // backgroundImage = loadImage("data/background.png");
+  // gun = loadImage("data/shotframe1.png");
+  document.addEventListener("touchstart", () => {
+    shot = true;
+
+    setTimeout(()=>shot=false , 100);
+    // var img = document.getElementById("img");
+    // img.src = "data/shotframe2.png";
+  });
+
+  // document.addEventListener("touchend", () => {
+  //   shot = false;
+  //   // var img = document.getElementById("img");
+  //   // img.src = "data/shotframe1.png";
+  // });
+
+
   webSocketsSetup();
-  blackBox = ()=> rect(0 , height - ((height/(height - mouseX)) * 100) , width, (height/(height - mouseX)) * 100);
-  x=width/2;
-  y=height/2;
 }
 
 function draw() {
-  background(255,0,0);
-  image(backgroundImage , 0 , 0 , width, height);
-  gun.draw(width/2 , height - gun.getHeight());
-  blackBox();
   if(_connected === true){
     webSocket.send("["+yDif*-sensitivity+","+xDif*-sensitivity+","+ shot +"]");
   }
-  //Reset the boolean 'shot'
-  shot=false;
-}
-
-function mousePressed(){
-  shot=true;
-  //If it works , dont touch it
-  setTimeout(()=>gun.changeFrame(1) , 50);
-  setTimeout(()=>gun.changeFrame(0) , 90);
-  //
-  console.log();
 }

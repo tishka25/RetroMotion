@@ -33,7 +33,7 @@ class World {
       }
 
       //Correct the direction the birds moves
-      if (allSprites[i].position.x > width || allSprites[i].position.x < 0) {
+      if (allSprites[i].position.x + 200 > width || allSprites[i].position.x - 200 < 0) {
         this.pickNewDirection(i);
       }
 
@@ -133,7 +133,6 @@ class World {
   scoreHandler(index) {
     if (allSprites[index].position.y < 0) {
       allSprites[index].remove();
-      console.log('Killed a duck');
       this.lifes--;
     }
     if (this.score >= this.stepToGiveLife) {
@@ -170,7 +169,7 @@ class Background {
   update() {
     if(duckHunt.score>=this.stepsToFlicker){
       tint(random(255),random(255), random(255));
-      setTimeout(()=>this.stepsToFlicker+=10 , 1000);
+      setTimeout(()=>this.stepsToFlicker+=5 , 5000);
     }else{
       noTint();
     }

@@ -7,7 +7,9 @@ class GUI {
     this.game = game;
     this.image = loadImage("assets/button.png");
     this.qrcode = createDiv('');
-    this.hrefToConnect = document.location.host + "/controller";  }
+    this.sent = false;
+    this.hrefToConnect = document.location.host + "/controller";  
+  }
 
   begin() {
     rectMode(CENTER);
@@ -21,13 +23,12 @@ class GUI {
   }
 
   update() {
-    if(keyCode===ENTER){
+    if(keyIsPressed && keyCode===ENTER){
       this.submitName();
     }
     if (this.game.lifes <= 0) //End Game
       this.gameOver();
     if (this.start) {
-      console.log("Game is working");
       this.game.update();
       this.textHandler();
     } else {
@@ -38,8 +39,16 @@ class GUI {
     this.start = true;
   }
   gameOver() {
+    if(!this.sent){
     loadJSON('insert/'+this.game.user_name+'/'+this.game.score);
-    location.reload(false);
+    console.log("Score is saved");
+    this.sent=true;
+  }
+    this.start=false;
+    this.qrcode.show();
+    this.inp.show();
+    this.game.score=0;
+    this.game.lifes=5;
   }
 
   submitName() {
@@ -48,6 +57,7 @@ class GUI {
       this.inp.hide();
       this.qrcode.hide();
       this.startGame();
+      this.sent = false;
     }
   }
   drawing() {
