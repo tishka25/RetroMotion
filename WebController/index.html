@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html>
+    <meta 
+    name='viewport' 
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' 
+/>
 <style>
   body {
     padding: 0;
     margin: 0;
     overflow: hidden;
   }
+
+  #bcg {
+    margin-top: -15%;
+    width: 100%;
+    height: 100%;
+  }
+  #gun {
+    position: relative;
+    margin-top: -130%;
+    margin-left:12%;
+    width: 80%;
+    height: 80%;
+
+   
+  }
+
 </style>
 
 <script type="text/javascript" src="./libraries/p5.js"></script>
@@ -16,126 +36,13 @@
 <meta charset="utf-8">
 
 <script src="sketch.js"></script>
-<!-- <script>
-  //CONTROLER
-
-  var xDif = 0;
-  var yDif = 0;
-  var width = window.innerWidth;
-  var height = window.innerWidth
-  var shot = false;
-  var sensitivity = 1/4;
-  var webSocket;
-  //WEBSOCKET
-
-  ///////////
-
-  //GYROSCOPE
-
-  var x = 0;
-  var y = 0;
+<img id="bcg" src="data/background2.png" alt="BROKENIGGASONLY">
+<img id="gun" src="data/shotframe1.png" alt="BROKENIGGASONLY">
 
 
-
-  var args = {
-    frequency: 10,
-    gravityNormalized: true,
-    orientationBase: GyroNorm.GAME,
-    decimalCount: 2,
-    logger: null,
-    screenAdjusted: false
-  };
-
-
-  var debug_text;
-
-
-  document.addEventListener("mousedown", () => {
-    shot = true;
-    var img = document.getElementById("img");
-    img.src = "data/shotframe2.png";
-  });
-  document.addEventListener("touchstart", () => {
-    shot = true;
-    var img = document.getElementById("img");
-    img.src = "data/shotframe2.png";
-  });
-
-
-  document.addEventListener("mouseup", () => {
-    shot = false;
-    var img = document.getElementById("img");
-    img.src = "data/shotframe1.png";
-  });
-  document.addEventListener("touchend", () => {
-    shot = false;
-    var img = document.getElementById("img");
-    img.src = "data/shotframe1.png";
-  });
-
-  var ip = document.location.host.replace('300', '400');
-  var webSocketURL = "ws://" + ip;
-  webSocket = new WebSocket(webSocketURL);
-  webSocket.onopen = function () {
-    setInterval(() => {
-      webSocket.send("[" + yDif * -sensitivity + "," + xDif * -sensitivity + "," + shot + "]");
-    }, 20);
-  };
-  webSocket.onmessage = function (e) {
-    console.log(e.data);
-  };
-
-  window.onbeforeunload = function (e) {
-    webSocket.close();
-  };
-  window.onunload = function (e) {
-    webSocket.close();
-  };
-
-
-
-
-  if (window.DeviceOrientationEvent) {
-    window.addEventListener("deviceorientation", gyroFunc, false);
-  } else {
-    debug_text.data = "Not supported";
-  }
-
-
-  function gyroFunc(evt){
-    debug_text.data = xDif + "y position is " + yDif;
-
-    xDif=evt.alpha.toFixed(2);
-    yDif=evt.gamma.toFixed(2);
-    y-=event.alpha;
-    x-=event.gamma;
-  }
-
-
-  var img = new Image();
-  var gun = document.createElement("IMG");
-  gun.src = "data/shotfram1.png";
-  window.onload = function () {
-
-
-    var para = document.createElement("P");                       // Create a <p> element
-    debug_text = document.createTextNode("");
-    para.appendChild(debug_text);                                          // Append the text to <p>
-    document.body.appendChild(para);
-
-
-    document.body.style.backgroundImage = "url('data/background.png')";
-    var d = document.getElementById("img");
-    d.style.position = "absolute";
-    d.style.left = (window.innerWidth / 2) - (d.width / 2) + 'px';
-    d.style.top = (window.innerHeight) - (d.height) + 'px';
-  }
-
-
-</script> -->
-
-<!-- <div>
-  <img id="img" src="data/shotframe1.png">
-</div> -->
-
+<script>
+  window.addEventListener('touchstart', function() {
+    window.navigator.vibrate(50); 
+});
+</script>
 </html>

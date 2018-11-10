@@ -71,6 +71,7 @@ function webSocketsSetup(){
 }
 
 function setup() {
+  noCanvas();
   createCanvas(windowWidth, windowHeight); 
   frameRate(120);
   // backgroundImage = loadImage("data/background.png");
@@ -79,15 +80,16 @@ function setup() {
     shot = true;
 
     setTimeout(()=>shot=false , 100);
-    // var img = document.getElementById("img");
-    // img.src = "data/shotframe2.png";
+    var img = document.getElementById("gun");
+    img.src = "data/shotframe2.png";
+
   });
 
-  // document.addEventListener("touchend", () => {
-  //   shot = false;
-  //   // var img = document.getElementById("img");
-  //   // img.src = "data/shotframe1.png";
-  // });
+ document.addEventListener("touchend", () => {
+    shot = false;
+     var img = document.getElementById("gun");
+     img.src = "data/shotframe1.png";
+  });
 
 
   webSocketsSetup();
