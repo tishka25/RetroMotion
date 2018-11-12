@@ -38,6 +38,7 @@ class Item{
     this.isBomb=isBomb;
     this.scale=0;
     this.radius=0;
+    this.angle=0;
 
     this.posX;
     this.posY;
@@ -46,6 +47,8 @@ class Item{
 
   update(curX,curY,curPressed) {
     if (this.finished) {
+
+      this.angle=random(0,45);
 
       this.lives=0;
       this.score=0;
@@ -76,9 +79,12 @@ class Item{
     this.posY=this.y;
 
     this.scale=1/(2*(1080/height));
+    push();
     imageMode(CENTER);
-    image(this.img, this.posX ,this.posY ,this.img.width*this.scale,this.img.height*this.scale);
-
+    translate(this.posX,this.posY);
+    rotate(this.angle+=1);
+    image(this.img, 0,0 ,this.img.width*this.scale,this.img.height*this.scale);
+    pop();
     this.radius=(this.img.height*this.scale)/2;
 
     if (this.x<=this.maxX)this.x+=this.speed;
@@ -167,6 +173,8 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   scale=height/1080;
   textSize(100*scale);
+
+  angleMode(DEGREES);
 
   imgBanana = loadImage("./assets/Banana.png");
   imgCoconut = loadImage("./assets/Coconut.png");
