@@ -70,16 +70,24 @@ function webSocketsSetup(){
   };
 }
 
+
 function setup() {
   noCanvas();
   createCanvas(windowWidth, windowHeight); 
   frameRate(120);
+  // screen.lockOrientation("portrait-primary");
+
+  window.oncontextmenu = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    return false;
+  };
   // backgroundImage = loadImage("data/background.png");
   // gun = loadImage("data/shotframe1.png");
   document.addEventListener("touchstart", () => {
     shot = true;
 
-    setTimeout(()=>shot=false , 100);
+    // setTimeout(()=>shot=false , 100);
     var img = document.getElementById("gun");
     img.src = "data/shotframe2.png";
 

@@ -1,3 +1,9 @@
+//Game vars
+var NumberOfFruit=1;
+var prevNumberOfFruit=1;
+var lives=3;
+var score=0;
+
 class Item{  
   constructor(img,isBomb) {
     //For equations
@@ -94,11 +100,13 @@ class Item{
         this.lives=-1;
       }
     }
-
     if(dist(curX,curY,this.posX,this.posY)<=this.radius&&curPressed){
       this.finished=true;
-      if(!this.bomb){
+      if(this.isBomb!==1){
         this.score=1;
+      }
+      else{
+        this.lives=-lives;
       }
     }
 
@@ -124,38 +132,35 @@ var imgPlum;
 var imgRed_Apple;
 var imgStrawberry;
 var imgWatermelon;
+var imgBomb;
 
 var imgBackground;
 
 function pickFruit(){
-  switch(Math.round(random(1,15))){
-    case 1:return imgBanana;
-    case 2:return imgCoconut;
-    case 3:return imgGreen_Apple;
-    case 4:return imgKiwi_Fruit;
-    case 5:return imgLemon;
-    case 6:return imgLime;
-    case 7:return imgMango;
-    case 8:return imgPassionfruit;
-    case 9:return imgPeach;
-    case 10:return imgPear;
-    case 11:return imgPineapple;
-    case 12:return imgPlum;
-    case 13:return imgRed_Apple;
-    case 14:return imgStrawberry;
-    case 15:return imgWatermelon;
-    default:return imgBanana;
+  switch(Math.round(random(1,20))){
+    case 1:return new Item(imgBanana,0);
+    case 2:return new Item(imgCoconut,0);
+    case 3:return new Item(imgGreen_Apple,0);
+    case 4:return new Item(imgKiwi_Fruit,0);
+    case 5:return new Item(imgLemon,0);
+    case 6:return new Item(imgLime,0);
+    case 7:return new Item(imgMango,0);
+    case 8:return new Item(imgPassionfruit,0);
+    case 9:return new Item(imgPeach,0);
+    case 10:return new Item(imgPear,0);
+    case 11:return new Item(imgPineapple,0);
+    case 12:return new Item(imgPlum,0);
+    case 13:return new Item(imgRed_Apple,0);
+    case 14:return new Item(imgStrawberry,0);
+    case 15:return new Item(imgWatermelon,0);
+    default:return new Item(imgBomb,1);
   }
 }
 
 var prevMX=0;
 var prevMY=0;
 
-//Game vars
-var NumberOfFruit=1;
-var prevNumberOfFruit=1;
-var lives=3;
-var score=0;
+
 
 //Timer vars
 var prevMillis=0;
@@ -167,14 +172,10 @@ var secondsStr="xx";
 var minutes=0;
 
 var scale=0;
+var cursor = null;
 
-function setup() {
-  //createCanvas(800, 600);
-  createCanvas(windowWidth, windowHeight);
-  scale=height/1080;
-  textSize(100*scale);
-
-  angleMode(DEGREES);
+function preload(){
+  cursor = new Cursor(loadImage("./assets/katana.png"));
 
   imgBanana = loadImage("./assets/Banana.png");
   imgCoconut = loadImage("./assets/Coconut.png");
@@ -191,10 +192,22 @@ function setup() {
   imgRed_Apple = loadImage("./assets/Red_Apple.png");
   imgStrawberry = loadImage("./assets/Strawberry.png");
   imgWatermelon = loadImage("./assets/Watermelon.png");
-  
-  Fruit[0]= new Item(pickFruit(),0);
-
+  imgBomb = loadImage("./assets/Bomb.png");
   imgBackground = loadImage("./assets/background.png");
+  
+}
+
+function setup() {
+  //createCanvas(800, 600);
+  createCanvas(windowWidth, windowHeight);
+  scale=height/1080;
+  textSize(100*scale);
+
+  angleMode(DEGREES);
+
+  cursor.begin();
+  Fruit[0]= new pickFruit();
+
 
   background(imgBackground);
 }
@@ -202,15 +215,15 @@ function setup() {
 function draw() {
   background(imgBackground);
   stroke(255);
-
+  cursor.update();
   curMillis=millis()-prevMillis;
 
-  if(mouseIsPressed){
+  if(cursor.clicked){
     strokeWeight(10*scale);
-    line(prevMX,prevMY,mouseX,mouseY);
+    line(prevMX,prevMY,cursor.positionX,cursor.positionY);
   }
-  prevMX=mouseX;
-  prevMY=mouseY;
+  prevMX=cursor.positionX;
+  prevMY=cursor.positionY;
 
   fill(255);
   noStroke();
@@ -240,20 +253,22 @@ function draw() {
 
   if(prevNumberOfFruit<NumberOfFruit){
     for(prevNumberOfFruit;prevNumberOfFruit<NumberOfFruit;prevNumberOfFruit++){
-      Fruit[prevNumberOfFruit]=new Item(pickFruit(),0);
+
+        Fruit[prevNumberOfFruit]=pickFruit();  
+      
     }
     
   }
 
   for(var i=0;i<NumberOfFruit;i++){
-    Fruit[i].update(mouseX,mouseY-height,mouseIsPressed);
+    Fruit[i].update(cursor.positionX,cursor.positionY-height,cursor.clicked);
     lives+=Fruit[i].lives;
     score+=Fruit[i].score;
     if(lives<=0){
       gameOver();
     }
     if(Fruit[i].finished){
-      Fruit[i].img=pickFruit();
+      Fruit[i]=pickFruit();
     }
   }
 
