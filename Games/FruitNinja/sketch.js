@@ -1,5 +1,5 @@
 class Item{  
-  constructor(img) {
+  constructor(img,isBomb) {
     //For equations
     this.x=0;
     this.y=0;
@@ -15,27 +15,44 @@ class Item{
 
     //Parabola limits
     this.maxWidth=width;
-    this.maxHeight=height-0.1*height;
-    this.minHeight=0.1*height;
+    this.maxHeight=height-0.2*height;
+    this.minHeight=0.2*height;
+    this.widthMargin=0.05*width;
 
     this.pWidth=0;
     this.pHeight=0;
     this.pX=0;
 
-    this.finished=false;
+    //Other vars
+    this.finished=true;
 
-    this.speed=0.5;
+    this.speed=0.3;
+
+    this.lives=0;
+    this.score=0;
+
+    this.color=color(255);
 
     this.img=img;
+    this.splash=loadImage("./assets/splash.png");
+    this.isBomb=isBomb;
+    this.scale=0;
+    this.radius=0;
+
+    this.posX;
+    this.posY;
   }
 
 
-  update() {
-    if (!this.finished) {
+  update(curX,curY,curPressed) {
+    if (this.finished) {
 
-      this.pX=random(0, this.maxWidth);
+      this.lives=0;
+      this.score=0;
+
+      this.pX=this.widthMargin+random(0, this.maxWidth-2*this.widthMargin);
       this.pHeight=this.minHeight+random(0, this.maxHeight-this.minHeight);
-      this.pWidth=random(0, this.maxWidth-this.pX);
+      this.pWidth=random(0, this.maxWidth-this.pX-this.widthMargin);
 
       this.b=sqrt(4*this.a*this.c-this.pHeight*4*this.a);
       this.D=this.b*this.b-4*this.a*this.c;
@@ -51,50 +68,172 @@ class Item{
         }
         this.midpoint=(this.x1+this.x2)/2;
       }
-      this.finished=true;
+      this.finished=false;
     }
     this.y=-((this.a*this.x*this.x)+(this.b*this.x)+this.c);
-    //fill(255);
-    //noStroke();
-    //rect(((this.x/this.maxX)*this.pWidth)+this.pX, this.y, 50, 50);
-    //make this scalable ;ddd
-    image(this.img, ((this.x/this.maxX)*this.pWidth)+this.pX, this.y,this.img.width/5,this.img.height/5);
+
+    this.posX=((this.x/this.maxX)*this.pWidth)+this.pX;
+    this.posY=this.y;
+
+    this.scale=1/(3*(1080/height));
+    imageMode(CENTER);
+    image(this.img, this.posX ,this.posY ,this.img.width*this.scale,this.img.height*this.scale);
+
+    this.radius=(this.img.height*this.scale)/2;
+
     if (this.x<=this.maxX)this.x+=this.speed;
-    if (this.x>this.maxX)this.finished=false;
+    if (this.x>this.maxX){
+      this.finished=true;
+      if(!this.isBomb){
+        this.lives=-1;
+      }
+    }
+
+    if(dist(curX,curY,this.posX,this.posY)<=this.radius&&curPressed){
+      this.finished=true;
+      if(!this.bomb){
+        this.score=1;
+      }
+    }
+
+    //console.log(dist(curX,curY,this.posX,this.posY));
+
   }
 }
 
-var Strawberry;
-var imgStrawberry;
+var Fruit=new Array();
 
-var Banana;
+var imgStrawberry;
 var imgBanana;
 
-function setup() {
-  createCanvas(800, 600);
+function pickFruit(){
+  switch(Math.round(random(1,15))){
+    case 1:return imgBanana;
+    case 2:return imgCoconut;
+    case 3:return imgGreen_Apple;
+    case 4:return imgKiwi_Fruit;
+    case 5:return imgLemon;
+    case 6:return imgLime;
+    case 7:return imgMango;
+    case 8:return imgPassionfruit;
+    case 9:return imgPeach;
+    case 10:return imgPear;
+    case 11:return imgPineapple;
+    case 12:return imgPlum;
+    case 13:return imgRed_Apple;
+    case 14:return imgStrawberry;
+    case 15:return imgWatermelon;
+    default:return imgBanana;
+  }
+}
 
-  imgStrawberry = loadImage("./assets/Strawberry.png");
-  Strawberry = new Item(imgStrawberry);
+var prevMX=0;
+var prevMY=0;
+
+//Game vars
+var NumberOfFruit=1;
+var prevNumberOfFruit=1;
+var lives=3;
+var score=0;
+
+//Timer vars
+var prevMillis=0;
+var curMillis=0;
+var time=135;
+var timer=0;
+var seconds=0;
+var secondsStr="xx";
+var minutes=0;
+
+function setup() {
+  //createCanvas(800, 600);
+  createCanvas(windowWidth, windowHeight);
+  textSize(100);
 
   imgBanana = loadImage("./assets/Banana.png");
-  Banana = new Item(imgBanana);
+  imgCoconut = loadImage("./assets/Coconut.png");
+  imgGreen_Apple = loadImage("./assets/Green_Apple.png");
+  imgKiwi_Fruit = loadImage("./assets/Kiwi_Fruit.png");
+  imgLemon = loadImage("./assets/Lemon.png");
+  imgLime = loadImage("./assets/Lime.png");
+  imgMango = loadImage("./assets/Mango.png");
+  imgPassionfruit = loadImage("./assets/Passionfruit.png");
+  imgPeach = loadImage("./assets/Peach.png");
+  imgPear = loadImage("./assets/Pear.png");
+  imgPineapple = loadImage("./assets/Pineapple.png");
+  imgPlum = loadImage("./assets/Plum.png");
+  imgRed_Apple = loadImage("./assets/Red_Apple.png");
+  imgStrawberry = loadImage("./assets/Strawberry.png");
+  imgWatermelon = loadImage("./assets/Watermelon.png");
+  
+  Fruit[0]= new Item(pickFruit(),0);
 
   background(0);
 }
 
-var prevMX=mouseX;
-var prevMY=mouseY;
-
 function draw() {
   background(0);
-  stroke(0,255,0);
-  strokeWeight(10);
-  line(prevMX,prevMY,mouseX,mouseY);
-  setTimeout(function(){
-    prevMX=mouseX;
-    prevMY=mouseY;
-  }, 200);
+  stroke(255);
+
+  curMillis=millis()-prevMillis;
+
+  if(mouseIsPressed){
+    strokeWeight(10);
+    line(prevMX,prevMY,mouseX,mouseY);
+  }
+  prevMX=mouseX;
+  prevMY=mouseY;
+
+  fill(255);
+  noStroke();
+
+
+  timer=time-int(curMillis/1000);
+  seconds=timer-60*int(timer/60);
+  secondsStr=seconds;
+  if(seconds<10){
+    secondsStr="0" + seconds;
+  }
+  minutes=int(timer/60);
+  text(minutes + ":" + secondsStr,width/2,100);
+
+  if(timer<=0){
+    gameOver();
+  }
+
+  text("Lives:"+lives,10,100);
+  text("Score:"+score,width/2+width/4,100);
+
   translate(0, height);
-  Strawberry.update();
-  Banana.update();
+  NumberOfFruit=int(curMillis/30000)+1;
+
+  if(prevNumberOfFruit<NumberOfFruit){
+    for(prevNumberOfFruit;prevNumberOfFruit<NumberOfFruit;prevNumberOfFruit++){
+      Fruit[prevNumberOfFruit]=new Item(pickFruit(),0);
+    }
+    
+  }
+
+  for(var i=0;i<NumberOfFruit;i++){
+    Fruit[i].update(mouseX,mouseY-height,mouseIsPressed);
+    lives+=Fruit[i].lives;
+    score+=Fruit[i].score;
+    if(lives<=0){
+      gameOver();
+    }
+    if(Fruit[i].finished){
+      Fruit[i].img=pickFruit();
+    }
+  }
+
+
+
+  // console.log(get(mouseX,mouseY));
+}
+
+function gameOver(){
+  lives=3;
+  score=0;
+  prevMillis=millis();
+  timer=time;
 }
