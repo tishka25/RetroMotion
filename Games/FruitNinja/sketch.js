@@ -103,8 +103,21 @@ class Item{
 
 var Fruit=new Array();
 
-var imgStrawberry;
 var imgBanana;
+var imgCoconut;
+var imgGreen_Apple;
+var imgKiwi_Fruit;
+var imgLemon;
+var imgLime;
+var imgMango;
+var imgPassionfruit;
+var imgPeach;
+var imgPear;
+var imgPineapple;
+var imgPlum;
+var imgRed_Apple;
+var imgStrawberry;
+var imgWatermelon;
 
 function pickFruit(){
   switch(Math.round(random(1,15))){
