@@ -75,7 +75,7 @@ class Item{
     this.posX=((this.x/this.maxX)*this.pWidth)+this.pX;
     this.posY=this.y;
 
-    this.scale=1/(3*(1080/height));
+    this.scale=1/(2*(1080/height));
     imageMode(CENTER);
     image(this.img, this.posX ,this.posY ,this.img.width*this.scale,this.img.height*this.scale);
 
@@ -119,6 +119,8 @@ var imgRed_Apple;
 var imgStrawberry;
 var imgWatermelon;
 
+var imgBackground;
+
 function pickFruit(){
   switch(Math.round(random(1,15))){
     case 1:return imgBanana;
@@ -158,10 +160,13 @@ var seconds=0;
 var secondsStr="xx";
 var minutes=0;
 
+var scale=0;
+
 function setup() {
   //createCanvas(800, 600);
   createCanvas(windowWidth, windowHeight);
-  textSize(100);
+  scale=height/1080;
+  textSize(100*scale);
 
   imgBanana = loadImage("./assets/Banana.png");
   imgCoconut = loadImage("./assets/Coconut.png");
@@ -181,17 +186,19 @@ function setup() {
   
   Fruit[0]= new Item(pickFruit(),0);
 
-  background(0);
+  imgBackground = loadImage("./assets/background.png");
+
+  background(imgBackground);
 }
 
 function draw() {
-  background(0);
+  background(imgBackground);
   stroke(255);
 
   curMillis=millis()-prevMillis;
 
   if(mouseIsPressed){
-    strokeWeight(10);
+    strokeWeight(10*scale);
     line(prevMX,prevMY,mouseX,mouseY);
   }
   prevMX=mouseX;
@@ -208,14 +215,17 @@ function draw() {
     secondsStr="0" + seconds;
   }
   minutes=int(timer/60);
-  text(minutes + ":" + secondsStr,width/2,100);
+  textAlign(CENTER);
+  text(minutes + ":" + secondsStr,width/2,100*scale);
 
   if(timer<=0){
     gameOver();
   }
 
-  text("Lives:"+lives,10,100);
-  text("Score:"+score,width/2+width/4,100);
+  textAlign(LEFT);
+  text("Lives:"+lives,10*scale,100*scale);
+  textAlign(RIGHT);
+  text("Score:"+score,width,100*scale);
 
   translate(0, height);
   NumberOfFruit=int(curMillis/30000)+1;
