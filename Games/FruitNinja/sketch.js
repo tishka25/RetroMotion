@@ -42,9 +42,10 @@ class Item{
     this.img=img;
     this.splash=loadImage("./assets/splash.png");
     this.isBomb=isBomb;
-    this.scale=0;
+    this.myScale=0;
     this.radius=0;
     this.angle=0;
+    this.direction=1;
 
     this.posX;
     this.posY;
@@ -52,8 +53,10 @@ class Item{
 
 
   update(curX,curY,curPressed) {
+
     if (this.finished) {
 
+      this.direction=1-2*Math.round(random(0,1));
       this.angle=random(0,45);
 
       this.lives=0;
@@ -79,19 +82,23 @@ class Item{
       }
       this.finished=false;
     }
+    
+    push();
+    if(this.direction==-1)translate(width,1);
+    scale(this.direction,1);
     this.y=-((this.a*this.x*this.x)+(this.b*this.x)+this.c);
 
     this.posX=((this.x/this.maxX)*this.pWidth)+this.pX;
     this.posY=this.y;
 
-    this.scale=1/(2*(1080/height));
+    this.myScale=1/(2*(1080/height));
     push();
     imageMode(CENTER);
     translate(this.posX,this.posY);
     rotate(this.angle+=1);
-    image(this.img, 0,0 ,this.img.width*this.scale,this.img.height*this.scale);
+    image(this.img, 0,0 ,this.img.width*this.myScale,this.img.height*this.myScale);
     pop();
-    this.radius=(this.img.height*this.scale)/2;
+    this.radius=(this.img.height*this.myScale)/2;
 
     if (this.x<=this.maxX)this.x+=this.speed;
     if (this.x>this.maxX){
@@ -100,7 +107,10 @@ class Item{
         this.lives=-1;
       }
     }
-    if(dist(curX,curY,this.posX,this.posY)<=this.radius&&curPressed){
+    if(
+      (dist(curX,curY,this.posX,this.posY)<=this.radius&&curPressed&&this.direction==1)||
+      (dist(width-curX,curY,this.posX,this.posY)<=this.radius&&curPressed&&this.direction==-1)
+    ){
       this.finished=true;
       if(this.isBomb!==1){
         this.score=1;
@@ -111,7 +121,7 @@ class Item{
     }
 
     //console.log(dist(curX,curY,this.posX,this.posY));
-
+    pop();
   }
 }
 
@@ -133,6 +143,8 @@ var imgRed_Apple;
 var imgStrawberry;
 var imgWatermelon;
 var imgBomb;
+
+var imgSplash;
 
 var imgBackground;
 
@@ -171,8 +183,9 @@ var seconds=0;
 var secondsStr="xx";
 var minutes=0;
 
-var scale=0;
+var myScale=0;
 var cursor = null;
+var extColor = [];
 
 function preload(){
   cursor = new Cursor(loadImage("./assets/katana.png"));
@@ -193,6 +206,9 @@ function preload(){
   imgStrawberry = loadImage("./assets/Strawberry.png");
   imgWatermelon = loadImage("./assets/Watermelon.png");
   imgBomb = loadImage("./assets/Bomb.png");
+
+  imgSplash = loadImage("./assets/splash.png");
+
   imgBackground = loadImage("./assets/background.png");
   
 }
@@ -200,26 +216,32 @@ function preload(){
 function setup() {
   //createCanvas(800, 600);
   createCanvas(windowWidth, windowHeight);
-  scale=height/1080;
-  textSize(100*scale);
+  myScale=height/1080;
+  textSize(100*myScale);
 
   angleMode(DEGREES);
 
   cursor.begin();
   Fruit[0]= new pickFruit();
 
+  toBW(imgSplash);
+  fastTint(imgSplash,extractColorFromImage(Fruit[0].img));
 
   background(imgBackground);
 }
 
 function draw() {
   background(imgBackground);
+  // tint(extractColorFromImage(Fruit[0].img));
+  // toBW(imgSplash);
+  image(imgSplash,width/2,height/2,imgSplash.width/2,imgSplash.height/2);
+  // noTint();
   stroke(255);
   cursor.update();
   curMillis=millis()-prevMillis;
 
   if(cursor.clicked){
-    strokeWeight(10*scale);
+    strokeWeight(10*myScale);
     line(prevMX,prevMY,cursor.positionX,cursor.positionY);
   }
   prevMX=cursor.positionX;
@@ -237,31 +259,29 @@ function draw() {
   }
   minutes=int(timer/60);
   textAlign(CENTER);
-  text(minutes + ":" + secondsStr,width/2,100*scale);
+  text(minutes + ":" + secondsStr,width/2,100*myScale);
 
   if(timer<=0){
     gameOver();
   }
 
   textAlign(LEFT);
-  text("Lives:"+lives,10*scale,100*scale);
+  text("Lives:"+lives,10*myScale,100*myScale);
   textAlign(RIGHT);
-  text("Score:"+score,width,100*scale);
+  text("Score:"+score,width,100*myScale);
 
   translate(0, height);
   NumberOfFruit=int(curMillis/30000)+1;
 
   if(prevNumberOfFruit<NumberOfFruit){
     for(prevNumberOfFruit;prevNumberOfFruit<NumberOfFruit;prevNumberOfFruit++){
-
         Fruit[prevNumberOfFruit]=pickFruit();  
-      
     }
-    
   }
 
   for(var i=0;i<NumberOfFruit;i++){
-    Fruit[i].update(cursor.positionX,cursor.positionY-height,cursor.clicked);
+    Fruit[i].update(mouseX,mouseY-height,mouseIsPressed);
+    // Fruit[i].update(cursor.positionX,cursor.positionY-height,cursor.clicked);
     lives+=Fruit[i].lives;
     score+=Fruit[i].score;
     if(lives<=0){
@@ -269,6 +289,7 @@ function draw() {
     }
     if(Fruit[i].finished){
       Fruit[i]=pickFruit();
+      if(!Fruit[i].isBomb)fastTint(imgSplash,extractColorFromImage(Fruit[i].img));
     }
   }
 
@@ -282,4 +303,46 @@ function gameOver(){
   score=0;
   prevMillis=millis();
   timer=time;
+}
+
+function extractColorFromImage(img) {
+  img.loadPixels();
+  var r = 0, g = 0, b = 0;
+  var index;
+  for (var i=0; i<img.width*img.height; i++) {
+      index=i*4;
+      r += img.pixels[index];
+      g += img.pixels[index + 1];
+      b += img.pixels[index + 2];
+  }
+  r = Math.round(r/(img.width*img.height));
+  g = Math.round(g/(img.width*img.height));
+  b = Math.round(b/(img.width*img.height));
+  return color(r, g, b);
+}
+
+function fastTint(img,c) {
+  img.loadPixels();
+  var index;
+  var r=c._array[0]*255,g=c._array[1]*255,b=c._array[2]*255;
+
+  for (var i=0; i<img.width*img.height; i++) {
+      index=i*4;
+      img.pixels[index]=Math.round((img.pixels[index]+r)/2);
+      img.pixels[index + 1]=Math.round((img.pixels[index + 1]+g)/2);
+      img.pixels[index + 2]=Math.round((img.pixels[index + 2]+b)/2);
+  }
+  img.updatePixels();
+}
+
+function toBW(img) {
+  img.loadPixels();
+  var index;
+  for (var i=0; i<img.width*img.height; i++) {
+      index=i*4;
+      img.pixels[index]=Math.round((img.pixels[index] + img.pixels[index + 1] + img.pixels[index + 2])/3);
+      img.pixels[index + 1]=img.pixels[index];
+      img.pixels[index + 2]=img.pixels[index];
+  }
+  img.updatePixels();
 }
