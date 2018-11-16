@@ -17,10 +17,12 @@ function setup(){
   createCanvas(windowWidth, windowHeight);
   angleMode(DEGREES);
   img = loadImage("assets/track.png");
-  enemy.push(new Enemy(random(400 , width - 400) , 0));
-  // enemy.push(new Enemy(random(400 , width - 400) , 0));
+  enemy.push(new Enemy(random(0,3)));
+  // enemy.push(new Enemy());
   spawnInterval = setInterval(()=>{
-    enemy.push(new Enemy(random(400 , width - 400) , 0));
+    var lane = Math.floor(random(0,3));
+    console.log(lane);
+    enemy.push(new Enemy(lane));
   } , 2000);
   player_x = width/2 - 50;
   player_y = height - 100;
@@ -45,11 +47,14 @@ function draw(){
       enemy.splice(i,1);
       score++;
     }
-    // if(dist() ){
-
-    // }
-    enemy[i].update();
+    if(dist(enemy[i].x , enemy[i].y , player_x , player_y) <= 50){
+      enemy.splice(i ,1);
+      score--;
+    }
+    e.update();
   }
+
+
   //Player
   push();
   fill(200,0,0);

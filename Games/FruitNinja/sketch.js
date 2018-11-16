@@ -14,15 +14,12 @@ class Splash {
     this.y=y;
     this.color = color;
     this.img = loadImage("./assets/splash.png");
-    this.isTint = false;
-  }
-  begin(){
-    if(!this.isTint){
-      this.img = this.fastTint(this.img , this.color);
-      this.isTint = true;
-    }
+    this.isTinted = false;
   }
   update(){
+    if(!this.isTinted){
+      this.fastTint(this.img , this.color);
+    }
     push();
     translate(0 , height);
     imageMode(CENTER);
@@ -31,21 +28,24 @@ class Splash {
   }
 
   fastTint(img,c) {
-    console.log(c);
     img.loadPixels();
-
     var index;
     var r=c._array[0]*255,g=c._array[1]*255,b=c._array[2]*255;
     var brightness=(r+g+b)/3;
     var brightnessPix=0;
-    for (var i=0; i<img.width*img.height; i++) {
+    var size = img.width*img.height;
+    console.log(size);
+    if(size > 100){
+      for (var i=0; i<img.width*img.height; i++) {
         index=i*4;
         brightnessPix=(img.pixels[index]+img.pixels[index + 1]+img.pixels[index + 2])/3;
         img.pixels[index] = (brightnessPix/brightness)*r;
         img.pixels[index + 1] = (brightnessPix/brightness)*g;
         img.pixels[index + 2] = (brightnessPix/brightness)*b;
+      }
+      img.updatePixels();
+      this.isTinted = true;
     }
-    img.updatePixels();
     return img;
   }
 
@@ -295,7 +295,6 @@ function draw() {
   // }
   for(var i =0 ; i<Splashes.length; i++){
     var s = Splashes[i];
-    s.begin();
     s.update();
   }
   stroke(255);
@@ -343,7 +342,7 @@ function draw() {
 
   for(var i=0;i<NumberOfFruit;i++){
     Fruit[i].update(mouseX,mouseY-height,mouseIsPressed);
-    if(Fruit[i].sliced){
+    if(Fruit[i].sliced && !Fruit[i].isBomb){
       // imgSplash[curNumberOfSplashes] = loadImage("./assets/splash.png");
       // if(curNumberOfSplashes!=0)imgSplash[curNumberOfSplashes]=imgSplash[0];
       // fastTint(imgSplash[curNumberOfSplashes],extractColorFromImage(Fruit[i].img));
@@ -366,6 +365,7 @@ function draw() {
       if(NumberOfSplashes<maxNumberOfSplashes)NumberOfSplashes++;
       if(NumberOfSplashes>=maxNumberOfSplashes){
         curNumberOfSplashes=0;
+        Splashes.splice(0,1);
       }
     }
     // Fruit[i].update(cursor.positionX,cursor.positionY-height,cursor.clicked);
