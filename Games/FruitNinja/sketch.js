@@ -325,12 +325,14 @@ function fastTint(img,c) {
   img.loadPixels();
   var index;
   var r=c._array[0]*255,g=c._array[1]*255,b=c._array[2]*255;
-
+  var brightness=(r+g+b)/3;
+  var brightnessPix=0;
   for (var i=0; i<img.width*img.height; i++) {
       index=i*4;
-      img.pixels[index]=Math.round((img.pixels[index]+r)/2);
-      img.pixels[index + 1]=Math.round((img.pixels[index + 1]+g)/2);
-      img.pixels[index + 2]=Math.round((img.pixels[index + 2]+b)/2);
+      brightnessPix=(img.pixels[index]+img.pixels[index + 1]+img.pixels[index + 2])/3;
+      img.pixels[index] = (brightnessPix/brightness)*r;
+      img.pixels[index + 1] = (brightnessPix/brightness)*g;
+      img.pixels[index + 2] = (brightnessPix/brightness)*b;
   }
   img.updatePixels();
 }
