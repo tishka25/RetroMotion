@@ -1,8 +1,55 @@
 //Game vars
 var NumberOfFruit=1;
+var NumberOfSplashes=0;
+var maxNumberOfSplashes=5;
+var curNumberOfSplashes=0;
 var prevNumberOfFruit=1;
 var lives=3;
 var score=0;
+
+
+class Splash {
+  constructor(x, y , color){
+    this.x = x;
+    this.y=y;
+    this.color = color;
+    this.img = loadImage("./assets/splash.png");
+    this.isTint = false;
+  }
+  begin(){
+    if(!this.isTint){
+      this.img = this.fastTint(this.img , this.color);
+      this.isTint = true;
+    }
+  }
+  update(){
+    push();
+    translate(0 , height);
+    imageMode(CENTER);
+    image(this.img , this.x ,this.y,200*myScale,200*myScale);
+    pop();
+  }
+
+  fastTint(img,c) {
+    console.log(c);
+    img.loadPixels();
+
+    var index;
+    var r=c._array[0]*255,g=c._array[1]*255,b=c._array[2]*255;
+    var brightness=(r+g+b)/3;
+    var brightnessPix=0;
+    for (var i=0; i<img.width*img.height; i++) {
+        index=i*4;
+        brightnessPix=(img.pixels[index]+img.pixels[index + 1]+img.pixels[index + 2])/3;
+        img.pixels[index] = (brightnessPix/brightness)*r;
+        img.pixels[index + 1] = (brightnessPix/brightness)*g;
+        img.pixels[index + 2] = (brightnessPix/brightness)*b;
+    }
+    img.updatePixels();
+    return img;
+  }
+
+}
 
 class Item{  
   constructor(img,isBomb) {
@@ -31,16 +78,14 @@ class Item{
 
     //Other vars
     this.finished=true;
+    this.sliced=false;
 
     this.speed=0.3;
 
     this.lives=0;
     this.score=0;
 
-    this.color=color(255);
-
     this.img=img;
-    this.splash=loadImage("./assets/splash.png");
     this.isBomb=isBomb;
     this.myScale=0;
     this.radius=0;
@@ -55,7 +100,7 @@ class Item{
   update(curX,curY,curPressed) {
 
     if (this.finished) {
-
+      this.sliced=false;
       this.direction=1-2*Math.round(random(0,1));
       this.angle=random(0,45);
 
@@ -112,6 +157,7 @@ class Item{
       (dist(width-curX,curY,this.posX,this.posY)<=this.radius&&curPressed&&this.direction==-1)
     ){
       this.finished=true;
+      this.sliced=true;
       if(this.isBomb!==1){
         this.score=1;
       }
@@ -126,6 +172,8 @@ class Item{
 }
 
 var Fruit=new Array();
+
+var Splashes = new Array();
 
 var imgBanana;
 var imgCoconut;
@@ -144,12 +192,12 @@ var imgStrawberry;
 var imgWatermelon;
 var imgBomb;
 
-var imgSplash;
+var imgSplash = new Array();
 
 var imgBackground;
 
 function pickFruit(){
-  switch(Math.round(random(1,20))){
+  switch(Math.round(random(1,30))){
     case 1:return new Item(imgBanana,0);
     case 2:return new Item(imgCoconut,0);
     case 3:return new Item(imgGreen_Apple,0);
@@ -186,7 +234,7 @@ var minutes=0;
 var myScale=0;
 var cursor = null;
 var extColor = [];
-
+var _splash = null;
 function preload(){
   cursor = new Cursor(loadImage("./assets/katana.png"));
 
@@ -207,8 +255,8 @@ function preload(){
   imgWatermelon = loadImage("./assets/Watermelon.png");
   imgBomb = loadImage("./assets/Bomb.png");
 
-  imgSplash = loadImage("./assets/splash.png");
-
+  imgSplash[0] = loadImage("./assets/splash.png");
+  
   imgBackground = loadImage("./assets/background.png");
   
 }
@@ -224,18 +272,32 @@ function setup() {
   cursor.begin();
   Fruit[0]= new pickFruit();
 
-  toBW(imgSplash);
-  fastTint(imgSplash,extractColorFromImage(Fruit[0].img));
+  toBW(imgSplash[0]);
+  // fastTint(imgSplash[0],extractColorFromImage(Fruit[0].img));
+
+  // Splashes[0]={
+  //   x:0,
+  //   y:0,
+  // }
 
   background(imgBackground);
 }
 
 function draw() {
   background(imgBackground);
-  // tint(extractColorFromImage(Fruit[0].img));
-  // toBW(imgSplash);
-  image(imgSplash,width/2,height/2,imgSplash.width/2,imgSplash.height/2);
-  // noTint();
+
+  // for(var i=0;i<NumberOfSplashes;i++){
+  //   push();
+  //   translate(0,height);
+  //   imageMode(CENTER);
+  //   image(imgSplash[i],Splashes[i].x,Splashes[i].y,(imgSplash[i].width/3)*myScale,(imgSplash[i].height/3)*myScale);
+  //   pop();
+  // }
+  for(var i =0 ; i<Splashes.length; i++){
+    var s = Splashes[i];
+    s.begin();
+    s.update();
+  }
   stroke(255);
   cursor.update();
   curMillis=millis()-prevMillis;
@@ -281,6 +343,31 @@ function draw() {
 
   for(var i=0;i<NumberOfFruit;i++){
     Fruit[i].update(mouseX,mouseY-height,mouseIsPressed);
+    if(Fruit[i].sliced){
+      // imgSplash[curNumberOfSplashes] = loadImage("./assets/splash.png");
+      // if(curNumberOfSplashes!=0)imgSplash[curNumberOfSplashes]=imgSplash[0];
+      // fastTint(imgSplash[curNumberOfSplashes],extractColorFromImage(Fruit[i].img));
+      if(Fruit[i].direction==1){
+        // Splashes[curNumberOfSplashes]={
+        //   x:Fruit[i].posX,
+        //   y:Fruit[i].posY,
+        // }
+        Splashes.push(new Splash(Fruit[i].posX , Fruit[i].posY , extractColorFromImage(Fruit[i].img)));
+
+      }
+      else{
+        // Splashes[curNumberOfSplashes]={
+        //   x:width-Fruit[i].posX,
+        //   y:Fruit[i].posY,
+        // }
+        Splashes.push(new Splash(width-Fruit[i].posX , Fruit[i].posY , extractColorFromImage(Fruit[i].img)));
+      }
+      curNumberOfSplashes++;
+      if(NumberOfSplashes<maxNumberOfSplashes)NumberOfSplashes++;
+      if(NumberOfSplashes>=maxNumberOfSplashes){
+        curNumberOfSplashes=0;
+      }
+    }
     // Fruit[i].update(cursor.positionX,cursor.positionY-height,cursor.clicked);
     lives+=Fruit[i].lives;
     score+=Fruit[i].score;
@@ -289,7 +376,6 @@ function draw() {
     }
     if(Fruit[i].finished){
       Fruit[i]=pickFruit();
-      if(!Fruit[i].isBomb)fastTint(imgSplash,extractColorFromImage(Fruit[i].img));
     }
   }
 
@@ -303,6 +389,7 @@ function gameOver(){
   score=0;
   prevMillis=millis();
   timer=time;
+  // NumberOfSplashes=0;
 }
 
 function extractColorFromImage(img) {
