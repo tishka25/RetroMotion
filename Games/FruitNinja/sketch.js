@@ -1,16 +1,12 @@
 //Game vars
 var NumberOfFruit = 1;
-var NumberOfSplashes = 0;
 var maxNumberOfSplashes = 5;
 var curNumberOfSplashes = 0;
 var prevNumberOfFruit = 1;
 var lives = 3;
 var score = 0;
 //
-//Backend
-var started = false;
-var userName = "";
-//
+
 
 class Splash {
   constructor(x, y, color) {
@@ -32,16 +28,16 @@ class Splash {
   }
 
   fastTint(img, c) {
-    img.loadPixels();
-    var index;
-    var r = c._array[0] * 255,
-      g = c._array[1] * 255,
-      b = c._array[2] * 255;
-    var brightness = (r + g + b) / 3;
-    var brightnessPix = 0;
     var size = img.width * img.height;
-    console.log(size);
     if (size > 100) {
+      img.loadPixels();
+      var index;
+      var r = c._array[0] * 255,
+        g = c._array[1] * 255,
+        b = c._array[2] * 255;
+      var brightness = (r + g + b) / 3;
+      var brightnessPix = 0;
+      console.log(size);
       for (var i = 0; i < img.width * img.height; i++) {
         index = i * 4;
         brightnessPix = (img.pixels[index] + img.pixels[index + 1] + img.pixels[index + 2]) / 3;
@@ -283,8 +279,6 @@ function preload() {
 
 }
 
-var input = null;
-
 function setup() {
   //createCanvas(800, 600);
   createCanvas(windowWidth, windowHeight);
@@ -305,118 +299,84 @@ function setup() {
   // }
 
   background(imgBackground);
-
-  input = createInput('');
-  input.position(width/2 - input.width/2 , height/2);
-  input.input(function(){
-    userName = this.value();
-  });
 }
 
 function draw() {
   background(imgBackground);
 
-  // for(var i=0;i<NumberOfSplashes;i++){
-  //   push();
-  //   translate(0,height);
-  //   imageMode(CENTER);
-  //   image(imgSplash[i],Splashes[i].x,Splashes[i].y,(imgSplash[i].width/3)*myScale,(imgSplash[i].height/3)*myScale);
-  //   pop();
-  // }
-  if (started) {
-    input.hide();
-    for (var i = 0; i < Splashes.length; i++) {
-      var s = Splashes[i];
-      s.update();
-    }
-    stroke(255);
-    cursor.update();
-    curMillis = millis() - prevMillis;
+  for (var i = 0; i < Splashes.length; i++) {
+    var s = Splashes[i];
+    s.update();
+  }
+  stroke(255);
+  cursor.update();
+  curMillis = millis() - prevMillis;
 
-    if (cursor.clicked) {
-      strokeWeight(10 * myScale);
-      line(prevMX, prevMY, cursor.positionX, cursor.positionY);
-    }
-    prevMX = cursor.positionX;
-    prevMY = cursor.positionY;
+  if (cursor.clicked) {
+    strokeWeight(10 * myScale);
+    line(prevMX, prevMY, cursor.positionX, cursor.positionY);
+  }
+  prevMX = cursor.positionX;
+  prevMY = cursor.positionY;
 
-    fill(255);
-    noStroke();
+  fill(255);
+  noStroke();
 
 
-    timer = time - int(curMillis / 1000);
-    seconds = timer - 60 * int(timer / 60);
-    secondsStr = seconds;
-    if (seconds < 10) {
-      secondsStr = "0" + seconds;
-    }
-    minutes = int(timer / 60);
-    textAlign(CENTER);
-    text(minutes + ":" + secondsStr, width / 2, 100 * myScale);
+  timer = time - int(curMillis / 1000);
+  seconds = timer - 60 * int(timer / 60);
+  secondsStr = seconds;
+  if (seconds < 10) {
+    secondsStr = "0" + seconds;
+  }
+  minutes = int(timer / 60);
+  textAlign(CENTER);
+  text(minutes + ":" + secondsStr, width / 2, 100 * myScale);
 
-    if (timer <= 0) {
-      gameOver();
-    }
-
-    textAlign(LEFT);
-    text("Lives:" + lives, 10 * myScale, 100 * myScale);
-    textAlign(RIGHT);
-    text("Score:" + score, width, 100 * myScale);
-
-    translate(0, height);
-    NumberOfFruit = int(curMillis / 30000) + 1;
-
-    if (prevNumberOfFruit < NumberOfFruit) {
-      for (prevNumberOfFruit; prevNumberOfFruit < NumberOfFruit; prevNumberOfFruit++) {
-        Fruit[prevNumberOfFruit] = pickFruit();
-      }
-    }
-
-    for (var i = 0; i < NumberOfFruit; i++) {
-      Fruit[i].update(mouseX, mouseY - height, mouseIsPressed);
-      if (Fruit[i].sliced && !Fruit[i].isBomb) {
-        // imgSplash[curNumberOfSplashes] = loadImage("./assets/splash.png");
-        // if(curNumberOfSplashes!=0)imgSplash[curNumberOfSplashes]=imgSplash[0];
-        // fastTint(imgSplash[curNumberOfSplashes],extractColorFromImage(Fruit[i].img));
-        if (Fruit[i].direction == 1) {
-          // Splashes[curNumberOfSplashes]={
-          //   x:Fruit[i].posX,
-          //   y:Fruit[i].posY,
-          // }
-          Splashes.push(new Splash(Fruit[i].posX, Fruit[i].posY, extractColorFromImage(Fruit[i].img)));
-
-        } else {
-          // Splashes[curNumberOfSplashes]={
-          //   x:width-Fruit[i].posX,
-          //   y:Fruit[i].posY,
-          // }
-          Splashes.push(new Splash(width - Fruit[i].posX, Fruit[i].posY, extractColorFromImage(Fruit[i].img)));
-        }
-        curNumberOfSplashes++;
-        if (NumberOfSplashes < maxNumberOfSplashes) NumberOfSplashes++;
-        if (NumberOfSplashes >= maxNumberOfSplashes) {
-          curNumberOfSplashes = 0;
-          Splashes.splice(0, 1);
-        }
-      }
-      // Fruit[i].update(cursor.positionX,cursor.positionY-height,cursor.clicked);
-      lives += Fruit[i].lives;
-      score += Fruit[i].score;
-      if (lives <= 0) {
-        gameOver();
-      }
-      if (Fruit[i].finished) {
-        Fruit[i] = pickFruit();
-      }
-    }
-  }else{
-    textAlign(CENTER);
-    textSize(30);
-    text("Main Menu" , width/2 , height/2);
+  if (timer <= 0) {
+    gameOver();
   }
 
+  textAlign(LEFT);
+  text("Lives:" + lives, 10 * myScale, 100 * myScale);
+  textAlign(RIGHT);
+  text("Score:" + score, width, 100 * myScale);
 
-  // console.log(get(mouseX,mouseY));
+  translate(0, height);
+  NumberOfFruit = int(curMillis / 30000) + 1;
+
+  if (prevNumberOfFruit < NumberOfFruit) {
+    for (prevNumberOfFruit; prevNumberOfFruit < NumberOfFruit; prevNumberOfFruit++) {
+      Fruit[prevNumberOfFruit] = pickFruit();
+    }
+  }
+
+  for (var i = 0; i < NumberOfFruit; i++) {
+    Fruit[i].update(mouseX, mouseY - height, mouseIsPressed);
+    if (Fruit[i].sliced && !Fruit[i].isBomb) {
+      if (Fruit[i].direction == 1) {
+        console.log("SLICED");
+        Splashes.push(new Splash(Fruit[i].posX, Fruit[i].posY, extractColorFromImage(Fruit[i].img)));
+
+      } else {
+        console.log("SLICED");
+        Splashes.push(new Splash(width - Fruit[i].posX, Fruit[i].posY, extractColorFromImage(Fruit[i].img)));
+      }
+      if (Splashes.length >= maxNumberOfSplashes) {
+        curNumberOfSplashes = 0;
+        Splashes.splice(0, 1);
+      }
+    }
+    lives += Fruit[i].lives;
+    score += Fruit[i].score;
+    if (lives <= 0) {
+      gameOver();
+    }
+    if (Fruit[i].finished) {
+      Fruit[i] = pickFruit();
+    }
+  }
+
 }
 
 function gameOver() {
@@ -424,10 +384,9 @@ function gameOver() {
   score = 0;
   prevMillis = millis();
   timer = time;
-  started = false;
-  Splashes.splice(0 , Splashes.length);
-  input.show();
-  // NumberOfSplashes=0;
+  Splashes.splice(0, Splashes.length);
+  NumberOfFruit = 0;
+  // Splashes.push(new Splash());
 }
 
 function extractColorFromImage(img) {
@@ -479,8 +438,8 @@ function toBW(img) {
 }
 
 
-function keyPressed(){
-  if (keyCode === ENTER && userName!='') {
+function keyPressed() {
+  if (keyCode === ENTER && userName != '') {
     started = true;
   }
 }

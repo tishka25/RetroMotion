@@ -17,7 +17,8 @@ function setup() {
   cursor.begin();
   // duckHunt.begin();
   gui=new GUI(duckHunt);
-  gui.begin();
+  // gui.begin();
+  duckHunt.begin();
 
   frameRate(60);
   rectMode(CENTER);
@@ -26,7 +27,8 @@ function setup() {
 function draw() {
     background(backgroundColor[0],backgroundColor[1],backgroundColor[2]);
     cursor.update();
-    gui.update();
+    duckHunt.update();
+    // gui.update();
 }
 
 function windowResized(){
