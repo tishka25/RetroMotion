@@ -352,7 +352,7 @@ function draw() {
   }
 
   for (var i = 0; i < NumberOfFruit; i++) {
-    Fruit[i].update(mouseX, mouseY - height, mouseIsPressed);
+    Fruit[i].update(prevMX, prevMY - height, cursor.clicked);
     if (Fruit[i].sliced && !Fruit[i].isBomb) {
       if (Fruit[i].direction == 1) {
         console.log("SLICED");

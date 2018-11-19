@@ -2,7 +2,7 @@
 
 var xDif=0;
 var yDif=0;
-var sensitivity=1/4;
+var sensitivity=1/2;
 var webSocket;
 //WEBSOCKET
 

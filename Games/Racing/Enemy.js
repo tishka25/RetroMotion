@@ -1,34 +1,20 @@
 class Enemy{
-    constructor(lane){
-        this.y = 0;
-        this.minSize = 40;
-        this.maxSize = 100;
-        this.size = this.minSize;
-        this.lane = lane;
-        this.roadWidth = (width - 400) - 400;
-        this.laneWidth = this.roadWidth / 3;
-        this.x = 400 + (this.lane * this.laneWidth);
-        this.firstX = this.x;
+    constructor(plane){
+        this.geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        this.material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+        this.cube = new THREE.Mesh( this.geometry, this.material );
+        this.plane = plane;
     }
 
     begin(){
-
+        this.plane.add(this.cube);
+        this.cube.position.y= 20;
+        this.cube.position.z= 0.5;
+        this.cube.position.x = Math.random() *5;  //TODO
+        console.log(this.cube.position.x);
     }
 
     update(){
-        var _scale = map(this.y ,0,height , this.minSize, this.maxSize);
-        if(this.lane>1){
-            var a = map(this.y , 0 , height , this.firstX , width , true);
-            this.x = a ;
-        }else if(this.lane<1){
-            var a = map(this.y , 0 , height , this.firstX ,0 , true);
-            this.x = a ;
-        }
-        push();
-        rect(this.x, this.y, this.size, this.size);
-        pop();
-        this.y+=1;
-
-        this.size = _scale;
+        this.cube.position.y-=1;
     }
 }

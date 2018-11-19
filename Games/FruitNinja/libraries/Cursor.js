@@ -11,6 +11,7 @@ class Cursor{
     this.positionX=width/2;
     this.positionY=height/2;
     this.socket;
+    this.sensitivy;
   }
 
   begin(){
