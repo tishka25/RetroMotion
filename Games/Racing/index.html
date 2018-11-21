@@ -40,7 +40,7 @@
 		}
 
  
-        var geometry = new THREE.PlaneGeometry( 10, 20, 4 );
+        var geometry = new THREE.PlaneGeometry( 10, 60, 4 );
         var plane = new THREE.Mesh( geometry, trackMaterial[0] );
         
 
@@ -50,14 +50,16 @@
         var bcgGeometry = new THREE.PlaneGeometry( 80, 20, 80 );
         var bcg = new THREE.Mesh( bcgGeometry, bcgMaterial );
         bcg.rotation.x=89.5;
-        bcg.position.y=19;
+        bcg.position.y=30;
         bcg.position.z=9;
+    
 
         DownbcgTexture = new THREE.TextureLoader().load(("animation/sprite_9.png") );
 		DownbcgMaterial = new THREE.MeshBasicMaterial( {map : DownbcgTexture} );
         var DownbcgGeometry = new THREE.PlaneGeometry( 80, 80, 40 );
         var Downbcg = new THREE.Mesh( DownbcgGeometry, DownbcgMaterial );
-        Downbcg.position.z=plane.position.z-0.8;
+        Downbcg.position.z=plane.position.z-1;
+        // Downbcg.rotation.z = plane.rotation.z - 100;
         
 
 
@@ -104,7 +106,7 @@
             ///SETS FRAMERATE 
             setTimeout( function() {
             requestAnimationFrame( animate );
-            }, 1000 / 8 );
+            }, 1000 / 20 );
 
 
             
@@ -133,12 +135,13 @@
                 if(InTurn==1){
                     if(turnDir>0){
                         plane.position.x+=0.1;
+                        bcg.position.x-=0.2;
                     }
                     
                     plane.rotation.z -= 0.04*turnDir;
                     if(plane.rotation.z<-0.4){
                         turnDir=-1;
-                    }
+                    } 
                     if(plane.rotation.z>0){
                         plane.rotation.z=0;
                         turnDir=1;
@@ -152,6 +155,7 @@
                 if(InTurn==2){
                     if(turnDir>0){
                         plane.position.x-=0.1;
+                        bcg.position.x+=0.2;
                     }
                     plane.rotation.z += 0.04*turnDir;
                     if(plane.rotation.z>0.4){
@@ -194,7 +198,7 @@ function onDocumentKeyDown(event) {
     if (keyCode == 87) {
        speed=0.01;
        plane.position.x+=0.2;
-
+ 
      }else{
         speed=0;
     }
@@ -209,11 +213,14 @@ function onDocumentKeyDown(event) {
     
     if (keyCode == 65) {
         plane.position.x+=0.2;
-        
+        bcg.position.x+=0.03;
+
 
     }
     if (keyCode == 68) {
         plane.position.x-=0.2;
+        bcg.position.x-=0.03;
+
     }
 };
 function onDocumentKeyUp(event) {
@@ -236,10 +243,14 @@ function onDocumentKeyUp(event) {
     
     if (keyCode == 65) {
         plane.position.x+=0.2;
+        bcg.position.x+=0.03;
+
 
     }
     if (keyCode == 68) {
         plane.position.x-=0.2;
+        bcg.position.x-=0.03;
+
     }
 };
 function randomIntFromInterval(min,max) // min and max included
