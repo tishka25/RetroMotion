@@ -40,10 +40,17 @@
 		}
 
  
-        var geometry = new THREE.PlaneGeometry( 10, 60, 4 );
+ var geometry = new THREE.Geometry();
+        geometry.vertices.push(
+            new THREE.Vector3( -1,  1, 0 ),
+            new THREE.Vector3( -1, -2, 0 ),
+            new THREE.Vector3(  1, -1, 0 ),
+            new THREE.Vector3(  -1, 1, 0 )
+        );
+        geometry.faces.push( new THREE.Face3( 0, 1, 2 ,3) );
+    
+        geometry.computeBoundingSphere();
         var plane = new THREE.Mesh( geometry, trackMaterial[0] );
-        
-
 
         bcgTexture = new THREE.TextureLoader().load(("bcg2.png") );
 		bcgMaterial = new THREE.MeshBasicMaterial( {map : bcgTexture} );
@@ -52,13 +59,14 @@
         bcg.rotation.x=89.5;
         bcg.position.y=30;
         bcg.position.z=9;
-    
+        
 
         DownbcgTexture = new THREE.TextureLoader().load(("animation/sprite_9.png") );
 		DownbcgMaterial = new THREE.MeshBasicMaterial( {map : DownbcgTexture} );
         var DownbcgGeometry = new THREE.PlaneGeometry( 80, 80, 40 );
         var Downbcg = new THREE.Mesh( DownbcgGeometry, DownbcgMaterial );
         Downbcg.position.z=plane.position.z-1;
+        
         // Downbcg.rotation.z = plane.rotation.z - 100;
         
 
@@ -94,7 +102,7 @@
         
 
         scene.add( plane ,bcg ,Downbcg);
-            camera.position.z = 1;
+            camera.position.z = 10;
             camera.position.y = -3;
 
             var frame=0;
@@ -112,7 +120,7 @@
             
            
 			plane.material=trackMaterial[frame];
-                camera.lookAt(new THREE.Vector3(0,90,0));
+                // camera.lookAt(new THREE.Vector3(0,90,0));
 
 				//plane.rotation.z += 0.01;
                 Downbcg.rotation.z=plane.rotation.z;
