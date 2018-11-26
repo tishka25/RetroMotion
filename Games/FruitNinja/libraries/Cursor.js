@@ -37,11 +37,6 @@ class Cursor{
     //Draw the cursor
     push();
     translate(this.positionX,this.positionY);
-    // if(serverShot)
-    //   tint(255,0,0);
-    // else{
-    //   noTint();
-    // }
     this.clicked = serverShot;
     image(this.sprite,0,0,this.cursorSize,this.cursorSize);
     pop();

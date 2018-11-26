@@ -51,7 +51,7 @@ class GUI {
       ellipse(x , y , this.size * 1.2 , this.size * 1.2);
       pop();
       //TODO cursor.js
-      if(mouseIsPressed){
+      if(this.cursor.clicked){
         document.location.pathname = g.url;
       }
     }

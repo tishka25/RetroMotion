@@ -17,30 +17,34 @@ class Cursor{
 
   begin(){
     //Socket connection
-    // this.socket=io.connect(document.location.host);//document.location.href
-    // this.socket.on('dataIn', function (data){
-    //   serverX=data.x;
-    //   serverY=data.y;
-    //   serverShot=data.shot;
-    // });
+    this.socket=io.connect(document.location.host);//document.location.href
+    this.socket.on('dataIn', function (data){
+      serverX=data.x;
+      serverY=data.y;
+      serverShot=data.shot;
+    });
     //end
   }
 
   update(){
     //Update the current position
-    // if(!(this.positionX+serverX<0 ||
-    //    this.positionX+serverX>width ||
-    //    this.positionY+serverY<0 ||
-    //    this.positionY+serverY>height) && this.socket.connected){ //Warning
-    //   this.positionX+=serverX;
-    //   this.positionY+=serverY;
-    // }
-    this.positionX = mouseX;
-    this.positionY = mouseY;
+    if(!(this.positionX+serverX<0 ||
+       this.positionX+serverX>width ||
+       this.positionY+serverY<0 ||
+       this.positionY+serverY>height) && this.socket.connected){ //Warning
+      this.positionX+=serverX;
+      this.positionY+=serverY;
+      console.log(serverX , serverY);
+    }
+
+    //DEBUG
+    // this.positionX = mouseX;
+    // this.positionY = mouseY;
+
     //Draw the cursor
     push();
     translate(this.positionX,this.positionY);
-    this.clicked = mouseIsPressed; //TODO WARNING
+    this.clicked = serverShot;
     image(this.sprite,0,0,this.cursorSize,this.cursorSize);
     pop();
     //end
@@ -56,7 +60,7 @@ class Cursor{
       y:mouseY,
       shot:false
     };
-    // this.socket.emit('dataIn',data);
+    this.socket.emit('dataIn',data);
 
   }
 

@@ -383,13 +383,17 @@ function draw() {
 }
 
 function gameOver() {
-  lives = 3;
-  score = 0;
-  prevMillis = millis();
-  timer = time;
-  Splashes.splice(0, Splashes.length);
-  NumberOfFruit = 0;
-  // Splashes.push(new Splash());
+  background(0);
+  Fruit.length = 0;
+  push();
+  textSize(30);
+  textAlign(CENTER);
+  text("GAMEOVER" , width/2 , height/2);
+  rect(width/2 , height/2 , 200,200);
+  pop();
+  setTimeout(()=>{
+    window.location.pathname = "/mainmenu";
+  } , 1000);
 }
 
 function extractColorFromImage(img) {
