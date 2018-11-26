@@ -1,8 +1,8 @@
 # Duck Hunt Remake with Motion Controlls
 
-<p>Android app developer - Peter Gerasimov (@petergerasimov)</p>
-<p>Backend developer - Alexander Petrov (@kocetomad) </p>
-<p>Game developer - Teodor Stanishev (@tishka25)</p>
+<p>Android app, Fruit Ninja remake - Peter Gerasimov (@petergerasimov)</p>
+<p>Backend, Racing game - Alexander Petrov (@kocetomad) </p>
+<p>Main menu, Duck hunt remake, project director - Teodor Stanishev (@tishka25)</p>
 
 <h1>Source code diagram </h1>
 
