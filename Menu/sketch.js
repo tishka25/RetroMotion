@@ -3,8 +3,9 @@ var _pixelDensity;
 var backgroundImage = null; 
 
 
-var DUCK_HUNT_URL;
-var FRUIT_NINJA_URL;
+var DUCK_HUNT_URL = "/duckhunt";
+var FRUIT_NINJA_URL = "/fruitninja";
+var MAIN_MENU_URL = "/mainmenu";
 
 
 function setup(){
@@ -13,12 +14,12 @@ function setup(){
     backgroundImage = loadImage("./assets/background_image.png");
     gui = new GUI([
         {
-            image:loadImage("./assets/duck_hunt_logo.jpg"),
-            name: "Duck Hunt"
+            image:loadImage("./assets/duck_hunt_logo.png"),
+            name: "Duck Hunt - Remake"
         },
         {
             image:loadImage("./assets/fruit_ninja_logo.png"),
-            name: "Fruit Ninja Masacre"
+            name: "Fruit Ninja - Remake"
         }
     ]);
     gui.begin();

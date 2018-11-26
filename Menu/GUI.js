@@ -21,14 +21,21 @@ class GUI {
       var g = this.games[i];
       var step = (this.size*2) * _pixelDensity * i;
       var position = createVector(this.x + step , this.y);
-      this.mouseOver(position.x , position.y);
+      this.mouse(position.x , position.y);
       image(g.image , position.x ,position.y, this.size , this.size);
+      //Text
+      textAlign(CENTER);
+      textSize(20);
+      textStyle(BOLD);
+      fill(255 , 255, 255 , 200);
+      text(g.name , position.x, position.y + this.size * 0.8);
+      //
     }
     pop();
   }
 
 
-  mouseOver(x , y){
+  mouse(x , y){
     var d = dist(x,y , mouseX , mouseY);
     var r = sqrt(2 * this.size * this.size) * 0.5;
     if(d <= r){
