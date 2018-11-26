@@ -279,6 +279,8 @@ function preload() {
 
 }
 
+var myFont;
+
 function setup() {
   //createCanvas(800, 600);
   createCanvas(windowWidth, windowHeight);
@@ -297,7 +299,8 @@ function setup() {
   //   x:0,
   //   y:0,
   // }
-
+  myFont = loadFont('assets/go3v2.ttf');
+  textFont(myFont);
   background(imgBackground);
 }
 
