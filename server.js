@@ -61,10 +61,12 @@ function newConnection(socket){
   function msg(data){
     data.x=Number(curData[0]);
     data.y=Number(curData[1]);
-    data.shot=curData[2];
+    data.z=Number(curData[2]);
+    data.shot=curData[3];
+    curData[4] = data.name;
     io.sockets.emit('dataIn',data);
     // socket.broadcast.emit('dataIn',data);
-    // console.log(data);
+    // console.log(data.name);
   }
 
   socket.on('scores',msg2);
@@ -106,12 +108,11 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     // console.log('received: %s', message);
     curData=JSON.parse(message);
-    //console.log(curData);
+    console.log(curData[4]);
     // console.log(curData[2]);
 
   });
-
-  ws.send('something');
+  ws.send(curData[4]);
 });
 
 function listening(){

@@ -2,6 +2,8 @@
 
 var xDif=0;
 var yDif=0;
+var zDif=0;
+
 var sensitivity=1/2;
 var webSocket;
 //WEBSOCKET
@@ -34,6 +36,7 @@ gn.init(args).then(function(){
     else if(y<0)y=0;
     xDif=data.dm.alpha;
     yDif=data.dm.gamma;
+    zDif=data.dm.beta;
     y-=data.dm.alpha;
     x-=data.dm.gamma;
   });
@@ -48,6 +51,7 @@ var backgroundImage;
 var gun;
 var blackBox;
 var drawn = false;
+var gameName = null;
 
 
 function webSocketsSetup(){
@@ -56,10 +60,10 @@ function webSocketsSetup(){
   webSocket= new WebSocket(webSocketURL);
   webSocket.onopen = function(){
     _connected = true;
-    console.log("OKUREEEC");
   };
   webSocket.onmessage= function(e){
     console.log(e.data);
+    gameName = e.data;
   };
 
   window.onbeforeunload = function(e) {
@@ -105,6 +109,12 @@ function setup() {
 
 function draw() {
   if(_connected === true){
-    webSocket.send("["+yDif*-sensitivity+","+xDif*-sensitivity+","+ shot +"]");
+    webSocket.send("["+yDif*-sensitivity+","+xDif*-sensitivity+"," + zDif*-sensitivity + "," + shot +"]");
+    webSocket.onmessage= function(e){
+      console.log(e.data);
+      gameName = e.data;
+    };
+    textSize(20);
+    text(gameName , 100,100);
   }
 }

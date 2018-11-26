@@ -46,7 +46,8 @@ class Cursor{
     let data={
       x:mouseX,
       y:mouseY,
-      shot:false
+      shot:false,
+      name:"fruitninja"
     };
     this.socket.emit('dataIn',data);
 
