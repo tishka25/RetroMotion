@@ -196,6 +196,7 @@ var imgBomb;
 var imgSplash = new Array();
 
 var imgBackground;
+var imgGameOver;
 
 function pickFruit() {
   switch (Math.round(random(1, 30))) {
@@ -276,6 +277,8 @@ function preload() {
   imgSplash[0] = loadImage("./assets/splash.png");
 
   imgBackground = loadImage("./assets/background.png");
+
+  imgGameOver = loadImage("./assets/gameover.png")
 
 }
 
@@ -383,17 +386,16 @@ function draw() {
 }
 
 function gameOver() {
-  background(0);
-  Fruit.length = 0;
-  push();
-  textSize(30);
-  textAlign(CENTER);
-  text("GAMEOVER" , width/2 , height/2);
-  rect(width/2 , height/2 , 200,200);
-  pop();
-  setTimeout(()=>{
-    window.location.pathname = "/mainmenu";
-  } , 1000);
+  function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  imgBackground=imgGameOver;
+  // image(imgBackground , 100 , 0 ,width , height);
+
+  sleep(2000).then(()=>{
+    document.location.href = "/mainmenu";
+  // window.location.pathname = "/mainmenu";
+  });
 }
 
 function extractColorFromImage(img) {
