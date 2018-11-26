@@ -49,6 +49,13 @@ class World {
       this.cursorHandler(i);
 
     }
+    push();
+    textSize(100 * (height/1080))
+    textAlign(LEFT);
+    text("Lives:" + this.lifes, 10 * (height/1080), 100 * (height/1080));
+    textAlign(RIGHT);
+    text("Score:" + this.score, width, 100 * (height/1080));
+    pop();
   }
 
 
