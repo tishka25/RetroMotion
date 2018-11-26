@@ -1,6 +1,6 @@
 let duckHunt;
 let bck;
-let gui;
+// let gui;
 let cursor;
 let backgroundColor=[0,127,255];
 function preload(){
@@ -16,7 +16,7 @@ function setup() {
   duckHunt = new World(cursor ,[loadAnimation("assets/duck1.png","assets/duck2.png","assets/duck3.png") , loadAnimation("assets/duck_dead.png") ,loadAnimation("assets/duck_shot.png")] , bck);
   cursor.begin();
   // duckHunt.begin();
-  gui=new GUI(duckHunt);
+  // gui=new GUI(duckHunt);
   // gui.begin();
   duckHunt.begin();
 
