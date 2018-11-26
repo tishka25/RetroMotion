@@ -7,7 +7,7 @@ class Cursor{
     this.cursor_default = _default;
     this.cursor_clicked = _clicked;
     this.sprite = this.cursor_default;
-    this.cursorSize=80;
+    this.cursorSize=80 * _pixelDensity;
     this.clicked = false;
     this.positionX=width/2;
     this.positionY=height/2;
@@ -40,7 +40,7 @@ class Cursor{
     //Draw the cursor
     push();
     translate(this.positionX,this.positionY);
-    this.clicked = serverShot;
+    this.clicked = mouseIsPressed; //TODO WARNING
     image(this.sprite,0,0,this.cursorSize,this.cursorSize);
     pop();
     //end
