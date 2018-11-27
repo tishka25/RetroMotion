@@ -393,8 +393,8 @@ function gameOver() {
   // image(imgBackground , 100 , 0 ,width , height);
 
   sleep(2000).then(()=>{
-    document.location.href = "/mainmenu";
-  // window.location.pathname = "/mainmenu";
+    // document.location.href = "/mainmenu";
+    window.location.pathname = "/mainmenu";
   });
 }
 
