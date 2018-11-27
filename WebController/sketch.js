@@ -169,8 +169,6 @@ function draw() {
         webSocket.send("[" + yDif * -sensitivity + "," + xDif * -sensitivity + "," + zDif * -sensitivity + "," + shot + "," +"\""+ userName + "\""+ "]");
         break;
     }
-    textSize(20);
-    text(userName, width / 2, height / 2);
   }
 }
 
