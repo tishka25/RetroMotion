@@ -8,9 +8,6 @@ var DUCK_HUNT_URL = "games/duckhunt";
 var FRUIT_NINJA_URL = "games/fruitninja";
 var RACING_URL = "games/racing";
 
-function preload(){
-  
-}
 
 
 function setup(){
