@@ -386,15 +386,21 @@ function draw() {
 }
 
 function gameOver() {
-  function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-  imgBackground=imgGameOver;
-  // image(imgBackground , 100 , 0 ,width , height);
+  // image(imgGameOver , 0 , 0 ,width , height);
+  background(0);
+  textAlign(CENTER);
+  textSize(30);
+  text("GAMEOVER" , width/2 , height/2)
 
-  sleep(2000).then(()=>{
-    // document.location.href = "/mainmenu";
+  //TODO remove
+  setTimeout(() => {
     window.location.pathname = "/mainmenu";
+  }, 1000);
+  //Write the score to the data base and then go back to the "/mainmenu"
+  loadJSON('insert/'+this.userName+'/'+this.score , function(){
+    setTimeout(() => {
+      window.location.pathname = "/mainmenu";
+    }, 1000);
   });
 }
 

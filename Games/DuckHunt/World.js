@@ -50,12 +50,19 @@ class World {
 
     }
     push();
-    textSize(100 * (height/1080))
+    textSize(100 * (height / 1080))
     textAlign(LEFT);
-    text("Lives:" + this.lifes, 10 * (height/1080), 100 * (height/1080));
+    text("Lives:" + this.lifes, 10 * (height / 1080), 100 * (height / 1080));
     textAlign(RIGHT);
-    text("Score:" + this.score, width, 100 * (height/1080));
+    text("Score:" + this.score, width, 100 * (height / 1080));
     pop();
+
+
+    //Check if it's game over
+    if (this.lifes <= 0) {
+
+    }
+
   }
 
 
@@ -78,10 +85,10 @@ class World {
 
 
   //Small functions
-  pickNewDirection(i){
+  pickNewDirection(i) {
     this.dirX[i] = (random(-8 - (this.score / 5), 8 + (this.score / 5)));
     this.dirY[i] = (random(-1 - (this.score / 5), -2 - (this.score / 5)));
-}
+  }
   //End
 
 
@@ -106,14 +113,14 @@ class World {
   }
 
   spawnBird() {
-    if(allSprites.length < int(this.score * 0.1) + 1 ){
+    if (allSprites.length < int(this.score * 0.1) + 1) {
       this.addBird().changeAnimation("default");
     }
     //Handle all "bugged" and killed objects
     this.garbageCollector();
     //Take another time after changing the direction
     this.spawnBirdTimer = this.timerHandler(2000, 4000, 50);
-  //Recursive timeout
+    //Recursive timeout
     this.spawnBirdInterval = setTimeout(this.spawnBird.bind(this), this.spawnBirdTimer);
   }
 
@@ -121,7 +128,7 @@ class World {
   //All little handlers
   timerHandler(min, max, factorOfScore) {
     return random(min - (this.score * factorOfScore), max - (this.score * factorOfScore));
-}
+  }
 
   garbageCollector() {
     for (let i = 0; i < allSprites.length; i++) {
@@ -157,13 +164,37 @@ class World {
     return bird;
   }
 
+
+  gameOver() {
+    push();
+    rectMode(CORNER);
+    fill(0);
+    rect(0, 0, width, height);
+    fill(255);
+    textAlign(CENTER);
+    textSize(30);
+    text("GAME OVER", width / 2, height / 2);
+    pop();
+    
+    //TODO remove
+    setTimeout(() => {
+      window.location.pathname = "/mainmenu";
+    }, 1000);
+    //Write the score to the data base and then go back to the "/mainmenu"
+    loadJSON('insert/'+this.userName+'/'+this.score , function(){
+      setTimeout(() => {
+        window.location.pathname = "/mainmenu";
+      }, 1000);
+    });
+  }
+
 }
 
 
 class Background {
   constructor(frames) {
     this.frames = frames;
-    this.stepsToFlicker=20;
+    this.stepsToFlicker = 20;
   }
 
   begin() {
@@ -174,10 +205,10 @@ class Background {
   }
 
   update() {
-    if(duckHunt.score>=this.stepsToFlicker){
-      tint(random(255),random(255), random(255));
-      setTimeout(()=>this.stepsToFlicker+=5 , 5000);
-    }else{
+    if (duckHunt.score >= this.stepsToFlicker) {
+      tint(random(255), random(255), random(255));
+      setTimeout(() => this.stepsToFlicker += 5, 5000);
+    } else {
       noTint();
     }
     this.frames.draw(width / 2, height - this.frames.getHeight() * 0.5);

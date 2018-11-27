@@ -1,7 +1,7 @@
 var express = require('express')
 var app = express()
 
-var cords=[0,0,0];
+var pageName = null;
 var server=app.listen(3000,listening);
 var curData=[0,0];
 
@@ -33,13 +33,12 @@ client.connect()
 //SCORE INSERT FROM FRONTEND
 app.get('/duckhunt/insert/:name/:score', function (req, res) {
   var data =req.params;
-  client.query("INSERT INTO scores VALUES ('"+data.name+"',"+data.score+");", (err, res) => {
+  client.query("INSERT INTO scores VALUES ('"+data.page+"',"+data.score+");", (err, res) => {
     if (err) {
       console.log(err.stack)
     } else {
       //console.log(res.rows[0])
     }
-  
 });
 });
 
@@ -63,10 +62,9 @@ function newConnection(socket){
     data.y=Number(curData[1]);
     data.z=Number(curData[2]);
     data.shot=curData[3];
-    curData[4] = data.name;
+    data.user_name= curData[4];
+    pageName = data.page;
     io.sockets.emit('dataIn',data);
-    // socket.broadcast.emit('dataIn',data);
-    // console.log(data.name);
   }
 
   socket.on('scores',msg2);
@@ -106,17 +104,12 @@ const wss = new WebSocket.Server({ port: 4000 });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    // console.log('received: %s', message);
     curData=JSON.parse(message);
-    console.log(curData[4]);
-    // console.log(curData[2]);
-
+    ws.send(pageName);
+    console.log(message);
   });
-  ws.send(curData[4]);
 });
 
 function listening(){
-
-  console.log("Listening...")
-
+  console.log("Listening...");
 }
