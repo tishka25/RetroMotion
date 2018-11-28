@@ -396,7 +396,7 @@ function exitGame() {
   pop();
   
   //Write the score to the data base and then go back to the "/mainmenu"
-  var url = document.location.origin + "/" + 'insert/'+userName+'/'+this.score + "Fruit Ninja";
+  var url = document.location.origin + "/" + 'insert/'+userName+'/'+this.score +"/"+ "Fruit Ninja";
   loadJSON(url);
   setTimeout(() => {
     window.location.pathname = "/mainmenu";
