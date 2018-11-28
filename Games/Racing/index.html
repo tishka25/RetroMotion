@@ -252,6 +252,9 @@
         if (currentLapTime && (startPosition < playerZ)) {
           lastLapTime    = currentLapTime;
           currentLapTime = 0;
+         var url = document.location.origin + "/" + 'insert/'+userName+'/'+lastLapTime;
+
+         httpGet(url);
           if (lastLapTime <= Util.toFloat(Dom.storage.fast_lap_time)) {
             Dom.storage.fast_lap_time = lastLapTime;
             updateHud('fast_lap_time', formatTime(lastLapTime));
@@ -716,6 +719,17 @@
     }
 
     //=========================================================================
+    function httpGet(theUrl, callback)
+    {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+    }
+
 
   </script>
 

@@ -1,7 +1,7 @@
 let serverX=0;
 let serverY=0;
-var serverShot=false;
-var _mouse = false;  // TODO remove 
+var serverShot=false; 
+var userName = "";
 
 class Cursor{
   constructor(sprite){
@@ -21,6 +21,7 @@ class Cursor{
       serverX=data.x;
       serverY=data.y;
       serverShot=data.shot;
+      userName = data.user_name;
     });
     //end
   }

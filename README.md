@@ -10,3 +10,7 @@
 
 <h2>Dockerhub repo</h2>
 https://hub.docker.com/r/noxid/ducks/
+
+
+<h2>Huge thanks to:</h2>
+https://codeincomplete.com/posts/javascript-racer-v2-curves/
