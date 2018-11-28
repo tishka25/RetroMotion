@@ -8,7 +8,8 @@ var elsysLogo = null;
 var DUCK_HUNT_URL = "games/duckhunt";
 var FRUIT_NINJA_URL = "games/fruitninja";
 var RACING_URL = "games/racing";
-
+var qrCode = null;
+var qr;
 
 
 function setup(){
@@ -36,6 +37,15 @@ function setup(){
         
     ] , cursor);
     gui.begin();
+
+    qrCode = createDiv('');
+    qrCode.id("qrcode");
+    qr = new QRCode(document.getElementById("qrcode") , document.location.host + "/controller");
+    qr._htOption.width = 300 * _pixelDensity;
+    qr._htOption.height = 300 * _pixelDensity;
+    qr.makeImage();
+    qrCode.position(width - qr._htOption.width*2 , height/2 - qr._htOption.height/2);
+
 
 }
 
