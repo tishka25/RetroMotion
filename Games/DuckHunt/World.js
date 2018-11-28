@@ -50,7 +50,7 @@ class World {
 
     }
     push();
-    textSize(100 * (height / 1080))
+    textSize(100 * (height / 1080));
     textAlign(LEFT);
     text("Lives:" + this.lifes, 10 * (height / 1080), 100 * (height / 1080));
     textAlign(RIGHT);
@@ -60,7 +60,7 @@ class World {
 
     //Check if it's game over
     if (this.lifes <= 0) {
-
+      this.gameOver();
     }
 
   }

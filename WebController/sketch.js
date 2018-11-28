@@ -132,13 +132,10 @@ function setup() {
     event.stopPropagation();
     return false;
   };
-  // backgroundImage = loadImage("data/background.png");
-  // gun = loadImage("data/shotframe1.png");
   document.addEventListener("touchstart", () => {
     if(userName.length>1 && userName!=null){
       shot = true;
     }
-    // setTimeout(()=>shot=false , 100)
   });
 
   document.addEventListener("touchend", () => {
@@ -177,6 +174,11 @@ function duckhuntPage() {
   userNameField.hide();
   acceptBtn.hide();
   background(DUCK_HUNT.image);
+
+  if(shot){
+    setTimeout(()=>shot=false , 150);
+  }
+
   webSocket.send("[" + yDif * -DUCK_HUNT.sensitivity + "," + xDif * -DUCK_HUNT.sensitivity + "," + zDif * -DUCK_HUNT.sensitivity + "," + shot + "," +"\""+ userName + "\"" + "]");
 }
 
