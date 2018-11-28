@@ -47,7 +47,8 @@ class Cursor{
     let data={
       x:0,
       y:0,
-      shot:false
+      shot:false,
+      page:"racing"
     };
     this.socket.emit('dataIn',data);
 

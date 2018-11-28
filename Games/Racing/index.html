@@ -94,7 +94,7 @@
   <script src="stats.js"></script>
   <script src="common.js"></script>
   <script>
-    var turnCar        =0                         //Motion controll steering
+    var turnCar        =0     ;                    //Motion controll steering
     var controller     =new Cursor();             // Socket controler
     var fps            = 60;                      // how many 'update' frames per second
     var step           = 1/fps;                   // how long is each frame (in seconds)
@@ -172,27 +172,37 @@
 
 
 
+      if(turnCar<-0.2){
+        keyLeft=true;
+        keyRight=false;
+      }
+      if(turnCar>0.2){
+        keyLeft=false;
+        keyRight=true;
+      }
+      if(turnCar<0.2 && turnCar>-0.2){
+        keyLeft=false;
+        keyRight=false;
 
-      
+      }
+
       controller.update();
-      console.log(controller.pressed);
-      // if (keyLeft || controller.positionX<0)
-      //   playerX = playerX - dx -controller.positionX;
-      // else if (keyRight || controller.positionX>0)
-      //   playerX = playerX + dx +controller.positionX;
-      turnCar+=controller.positionX;
-      
-      console.log(controller.positionX);
-       playerX+=controller.positionX/800;
+      turnCar=turnCar+controller.positionX/1000;
+      if(turnCar<-0.8){
+        turnCar = -0.1;
+      }
+      if(turnCar>0.8){
+        turnCar =0.1;
+      }
+      //Math.floor(turnCar);
+      console.log(turnCar);
+      if (keyLeft)
+        playerX = playerX - dx ;
+      else if (keyRight || controller.positionX>5)
+        playerX = playerX + dx 
 
       playerX = playerX - (dx * speedPercent * playerSegment.curve * centrifugal);
-      if(controller.positionX<0){
-        keyLeft=true;
-      }
-      if(controller.positionX>0){
-        keyRight=true;
-        
-      }
+      
       if (keyFaster || controller.clicked){
 
         speed = Util.accelerate(speed, accel, dt);
