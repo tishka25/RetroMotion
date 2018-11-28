@@ -2,6 +2,7 @@ let serverX=0;
 let serverY=0;
 var serverShot=false;
 var userName = null;
+var isExit = false;
 
 class Cursor{
   constructor(sprite){
@@ -22,6 +23,7 @@ class Cursor{
       serverY=data.y;
       serverShot=data.shot;
       userName = data.user_name;
+      isExit = data.isExit;
     });
     //end
   }
@@ -42,6 +44,7 @@ class Cursor{
     image(this.sprite,0,0,this.cursorSize,this.cursorSize);
     pop();
     //end
+
 
     //Wake the socket events
     let data={

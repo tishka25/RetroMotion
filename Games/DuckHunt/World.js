@@ -59,8 +59,8 @@ class World {
 
 
     //Check if it's game over
-    if (this.lifes <= 0) {
-      this.gameOver();
+    if (this.lifes <= 0 || isExit) {
+      this.exitGame();
     }
 
   }
@@ -165,15 +165,11 @@ class World {
   }
 
 
-  gameOver() {
+  exitGame() {
     push();
     rectMode(CORNER);
     fill(0);
     rect(0, 0, width, height);
-    fill(255);
-    textAlign(CENTER);
-    textSize(30);
-    text("GAME OVER", width / 2, height / 2);
     pop();
     
 

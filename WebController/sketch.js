@@ -4,16 +4,18 @@ var xDif = 0;
 var yDif = 0;
 var zDif = 0;
 var userName = "";
+var shot = false;
+var pageName = "null";
+var isExit = false;
 var sensitivity = 1 / 2;
 var webSocket;
+var _connected = false;
 //WEBSOCKET
 
 ///////////
 
 //GYROSCOPE
 
-var x = 0;
-var y = 0;
 
 var args = {
   frequency: 10,
@@ -29,29 +31,15 @@ var gn = new GyroNorm();
 
 gn.init(args).then(function () {
   gn.start(function (data) {
-
-    if (x > width) x = width;
-    else if (x < 0) x = 0;
-    if (y > height) y = height;
-    else if (y < 0) y = 0;
     xDif = data.dm.alpha;
     yDif = data.dm.gamma;
     zDif = data.dm.beta;
-    y -= data.dm.alpha;
-    x -= data.dm.gamma;
   });
 }).catch(function (e) {
 
 });
 
 ////////////////////
-var _connected = false;
-var shot = false;
-var backgroundImage;
-var gun;
-var blackBox;
-var drawn = false;
-var pageName = "null";
 
 //CONSTANTS
 var DUCK_HUNT = {
@@ -117,13 +105,32 @@ function setup() {
   frameRate(120);
 
   //UI settings
-  userNameField = createInput('');
-  userNameField.position(width / 2 - userNameField.width / 2, height / 10);
-  acceptBtn = createButton("Accept");
-  acceptBtn.position(width / 2 - acceptBtn.width/2 , height/10 + userNameField.height + 10);
-  acceptBtn.mousePressed(function(){
-    userName = userNameField.value();
-  });
+    //Input field and button
+    userNameField = createInput('');
+    userNameField.position(width / 2 - userNameField.width / 2, height / 10);
+    acceptBtn = createButton("Accept");
+    acceptBtn.position(width / 2 - acceptBtn.width/2 , height/10 + userNameField.height + 10);
+    acceptBtn.mousePressed(function(){
+      userName = userNameField.value();
+    });
+    //
+
+    //Exit button
+    var exitButton = createButton("Exit");
+    exitButton.size(100,50);
+    exitButton.position(0,0);
+    exitButton.mousePressed(function(){
+      isExit = true;
+      setTimeout(function(){
+        isExit = false;
+      } , 500);
+    });
+    // exitButton.touchEnded()(function(){
+    //   isExit = false;
+    // });
+    //
+
+
   //
 
 
@@ -164,7 +171,7 @@ function draw() {
         mainmenuPage();
         break;
       default:
-        webSocket.send("[" + yDif * -sensitivity + "," + xDif * -sensitivity + "," + zDif * -sensitivity + "," + shot + "," +"\""+ userName + "\""+ "]");
+        webSocket.send("[" + yDif * -sensitivity + "," + xDif * -sensitivity + "," + zDif * -sensitivity + "," + shot + "," +"\""+ userName + "\""+ ","+ isExit + "]");
         break;
     }
   }
@@ -180,25 +187,25 @@ function duckhuntPage() {
     setTimeout(()=>shot=false , 150);
   }
 
-  webSocket.send("[" + yDif * -DUCK_HUNT.sensitivity + "," + xDif * -DUCK_HUNT.sensitivity + "," + zDif * -DUCK_HUNT.sensitivity + "," + shot + "," +"\""+ userName + "\"" + "]");
+  webSocket.send("[" + yDif * -DUCK_HUNT.sensitivity + "," + xDif * -DUCK_HUNT.sensitivity + "," + zDif * -DUCK_HUNT.sensitivity + "," + shot + "," +"\""+ userName + "\"" + ","+ isExit + "]");
 }
 
 function fruitninjaPage() {
   userNameField.hide();
   acceptBtn.hide();
   background(FRUIT_NINJA.image);
-  webSocket.send("[" + yDif * -FRUIT_NINJA.sensitivity + "," + xDif * -FRUIT_NINJA.sensitivity + "," + zDif * -FRUIT_NINJA.sensitivity + "," + shot + "," + "\""+ userName + "\""+ "]");
+  webSocket.send("[" + yDif * -FRUIT_NINJA.sensitivity + "," + xDif * -FRUIT_NINJA.sensitivity + "," + zDif * -FRUIT_NINJA.sensitivity + "," + shot + "," + "\""+ userName + "\""+ ","+ isExit + "]");
 }
 function racingPage(){
   userNameField.hide();
   acceptBtn.hide();
   background(240,240 , 240);
   image(RACING.image , 0 , height/2);
-  webSocket.send("[" + yDif * -RACING.sensitivity + "," + xDif * -RACING.sensitivity + "," + zDif * -RACING.sensitivity + "," + shot + "," + "\""+ userName + "\""+ "]");
+  webSocket.send("[" + yDif * -RACING.sensitivity + "," + xDif * -RACING.sensitivity + "," + zDif * -RACING.sensitivity + "," + shot + "," + "\""+ userName + "\""+ ","+ isExit + "]");
 }
 function mainmenuPage() {
   background(MAIN_MENU.image);
   userNameField.show();
   acceptBtn.show();
-  webSocket.send("[" + yDif * -MAIN_MENU.sensitivity + "," + xDif * -MAIN_MENU.sensitivity + "," + zDif * -MAIN_MENU.sensitivity + "," + shot + "," + "\"" + userName +"\""+ "]");
+  webSocket.send("[" + yDif * -MAIN_MENU.sensitivity + "," + xDif * -MAIN_MENU.sensitivity + "," + zDif * -MAIN_MENU.sensitivity + "," + shot + "," + "\"" + userName +"\""+ ","+ isExit + "]");
 }

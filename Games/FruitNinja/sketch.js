@@ -339,8 +339,8 @@ function draw() {
   textAlign(CENTER);
   text(minutes + ":" + secondsStr, width / 2, 100 * myScale);
 
-  if (timer <= 0) {
-    gameOver();
+  if (timer <= 0 || isExit || lives<=0) {
+    exitGame();
   }
 
   textAlign(LEFT);
@@ -379,14 +379,11 @@ function draw() {
       Fruit[i] = pickFruit();
     }
   }
-  if (lives <= 0) {
-    gameOver();
-    console.log("GAMEOVER");
-  }
+  
 
 }
 
-function gameOver() {
+function exitGame() {
   background(0);
   push();
   translate(0 , height);

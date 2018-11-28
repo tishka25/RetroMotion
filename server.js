@@ -1,9 +1,22 @@
 var express = require('express')
 var app = express()
 
+
+//Variable so that the controller knows which page you are on
 var pageName = null;
+//
 var server=app.listen(3000,listening);
+//Websockets array
+  //CONSTANTS
+  const POSITION_X = 0;
+  const POSITION_Y = 1;
+  const POSITION_Z = 2;
+  const SHOT = 3;
+  const USER_NAME = 4;
+  const IS_EXIT = 5;
+  //
 var curData=[0,0];
+//
 
 ///socket 
 
@@ -17,7 +30,7 @@ const client = new Client({
   port: 5432,
 })
 
-client.connect()
+client.connect();
 //TVA E ZA DEBUG ZA MOMENTA NE GO BARAYTE
 //app.get('/gun', function (req, res) {
 /*client.query("INSERT INTO scores VALUES ('shterkata',12);", (err, res) => {
@@ -59,11 +72,12 @@ function newConnection(socket){
   console.log('new connection:'+socket.id);
   socket.on('dataIn',msg);
   function msg(data){
-    data.x=Number(curData[0]);
-    data.y=Number(curData[1]);
-    data.z=Number(curData[2]);
-    data.shot=curData[3];
-    data.user_name= curData[4];
+    data.x=Number(curData[POSITION_X]);
+    data.y=Number(curData[POSITION_Y]);
+    data.z=Number(curData[POSITION_Z]);
+    data.shot=curData[SHOT];
+    data.user_name= curData[USER_NAME];
+    data.isExit = curData[IS_EXIT];
     pageName = data.page;
     io.sockets.emit('dataIn',data);
   }
