@@ -44,10 +44,10 @@ client.connect();
 
 
 //SCORE INSERT FROM FRONTEND
-app.get('/insert/:name/:score', function (req, res) {
+app.get('/insert/:name/:score/:gameName', function (req, res) {
   var data =req.params;
   console.log(data);
-  client.query("INSERT INTO scores VALUES ('"+data.name+"',"+data.score+");", (err, res) => {
+  client.query("INSERT INTO scores VALUES ('"+data.name+"',"+data.score+",'"+data.gameName+"');", (err, res) => {
     if (err) {
       console.log(err.stack)
     } else {
@@ -84,8 +84,8 @@ function newConnection(socket){
 
   socket.on('scores',msg2);
   function msg2(data){
-
-    client.query("SELECT * FROM scores ORDER BY score DESC FETCH NEXT 5 ROW ONLY;", (err, res) => {
+    //TODO
+    client.query("SELECT * FROM scores WHERE name= 'polly' ORDER BY score DESC FETCH NEXT 5 ROW ONLY;", (err, res) => {
       if (err) {
         console.log(err.stack)
       } else {
