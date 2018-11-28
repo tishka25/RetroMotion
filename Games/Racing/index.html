@@ -255,7 +255,7 @@
         if (currentLapTime && (startPosition < playerZ)) {
           lastLapTime    = currentLapTime;
           currentLapTime = 0;
-         var url = document.location.origin + "/" + 'insert/'+userName+'/'+lastLapTime;
+         var url = document.location.origin + "/" + 'insert/'+userName+'/'+lastLapTime + "Outrun";
 
           httpGet(url);
           if (lastLapTime <= Util.toFloat(Dom.storage.fast_lap_time)) {

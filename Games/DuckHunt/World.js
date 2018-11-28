@@ -173,7 +173,7 @@ class World {
     pop();
     
 
-    var url = document.location.origin + "/" + 'insert/'+userName+'/'+this.score;
+    var url = document.location.origin + "/" + 'insert/'+userName+'/'+this.score + '/'+ "Duck Hunt";
     //Write the score to the data base and then go back to the "/mainmenu"
     loadJSON(url);
     setTimeout(() => {
