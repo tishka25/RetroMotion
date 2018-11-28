@@ -5,7 +5,7 @@ class GUI {
     this.qrcode = createDiv('');
     this.x = 200 ;
     this.y = height * 0.5;
-    this.size = 400 * _pixelDensity;
+    this.size = 300 * _pixelDensity;
   }
 
   begin() {

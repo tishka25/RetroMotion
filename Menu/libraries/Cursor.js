@@ -1,6 +1,7 @@
 let serverX=0;
 let serverY=0;
 var serverShot=false;
+var userName = null;
 
 class Cursor{
   constructor(_default , _clicked){
@@ -22,6 +23,7 @@ class Cursor{
       serverX=data.x;
       serverY=data.y;
       serverShot=data.shot;
+      userName = data.user_name;
     });
     //end
   }
@@ -34,7 +36,6 @@ class Cursor{
        this.positionY+serverY>height) && this.socket.connected){ //Warning
       this.positionX+=serverX;
       this.positionY+=serverY;
-      console.log(serverX , serverY);
     }
 
     //DEBUG
@@ -58,7 +59,8 @@ class Cursor{
     let data={
       x:mouseX,
       y:mouseY,
-      shot:false
+      shot:false,
+      page:"mainmenu"
     };
     this.socket.emit('dataIn',data);
 

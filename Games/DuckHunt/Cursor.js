@@ -1,7 +1,7 @@
 let serverX=0;
 let serverY=0;
 var serverShot=false;
-var _mouse = false;  // TODO remove 
+var userName = null;
 
 class Cursor{
   constructor(sprite){
@@ -21,6 +21,7 @@ class Cursor{
       serverX=data.x;
       serverY=data.y;
       serverShot=data.shot;
+      userName = data.user_name;
     });
     //end
   }
@@ -52,7 +53,7 @@ class Cursor{
       x:mouseX,
       y:mouseY,
       shot:false,
-      name:'duckhunt'
+      page:'duckhunt'
     };
     this.socket.emit('dataIn',data);
 

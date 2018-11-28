@@ -375,26 +375,38 @@ function draw() {
     }
     lives += Fruit[i].lives;
     score += Fruit[i].score;
-    if (lives <= 0) {
-      gameOver();
-    }
     if (Fruit[i].finished) {
       Fruit[i] = pickFruit();
     }
+  }
+  if (lives <= 0) {
+    gameOver();
+    console.log("GAMEOVER");
   }
 
 }
 
 function gameOver() {
-  function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-  imgBackground=imgGameOver;
-  // image(imgBackground , 100 , 0 ,width , height);
+  background(0);
+  push();
+  translate(0 , height);
+  // image(imgGameOver , 0 , 0 ,width , height);
+  fill(255);
+  rect(0,0,width , height);
+  textAlign(CENTER);
+  textSize(30);
+  text("GAMEOVER" , width/2 , height/2);
+  pop();
 
-  sleep(2000).then(()=>{
-    // document.location.href = "/mainmenu";
+  //TODO remove
+  setTimeout(() => {
     window.location.pathname = "/mainmenu";
+  }, 1000);
+  //Write the score to the data base and then go back to the "/mainmenu"
+  loadJSON('insert/'+this.userName+'/'+this.score , function(){
+    setTimeout(() => {
+      window.location.pathname = "/mainmenu";
+    }, 1000);
   });
 }
 
