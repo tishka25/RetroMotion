@@ -118,6 +118,11 @@ function setup() {
     //Exit button
     var exitButton = createButton("Exit");
     exitButton.size(100,50);
+    exitButton.style('-moz-user-select' , 'none');
+    exitButton.style('-webkit-user-select' , 'none');
+    exitButton.style('-ms-user-select' , 'none');
+    exitButton.style('user-select' , 'none');
+    exitButton.style('-o-user-select' , 'none');
     exitButton.position(0,0);
     exitButton.mousePressed(function(){
       isExit = true;
