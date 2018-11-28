@@ -176,16 +176,13 @@ class World {
     text("GAME OVER", width / 2, height / 2);
     pop();
     
-    //TODO remove
+
+    var url = document.location.origin + "/" + 'insert/'+userName+'/'+this.score;
+    //Write the score to the data base and then go back to the "/mainmenu"
+    loadJSON(url);
     setTimeout(() => {
       window.location.pathname = "/mainmenu";
     }, 1000);
-    //Write the score to the data base and then go back to the "/mainmenu"
-    loadJSON('insert/'+this.userName+'/'+this.score , function(){
-      setTimeout(() => {
-        window.location.pathname = "/mainmenu";
-      }, 1000);
-    });
   }
 
 }

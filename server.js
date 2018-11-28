@@ -31,13 +31,14 @@ client.connect()
 
 
 //SCORE INSERT FROM FRONTEND
-app.get('/duckhunt/insert/:name/:score', function (req, res) {
+app.get('/insert/:name/:score', function (req, res) {
   var data =req.params;
-  client.query("INSERT INTO scores VALUES ('"+data.page+"',"+data.score+");", (err, res) => {
+  console.log(data);
+  client.query("INSERT INTO scores VALUES ('"+data.name+"',"+data.score+");", (err, res) => {
     if (err) {
       console.log(err.stack)
     } else {
-      //console.log(res.rows[0])
+      // console.log(res);
     }
 });
 });
