@@ -107,6 +107,7 @@ function preload() {
   DUCK_HUNT.image = loadImage("./data/background.png");
   MAIN_MENU.image = loadImage("./data/main_menu_background.png");
   FRUIT_NINJA.image = loadImage("./data/fruit_ninja_background.png");
+  RACING.image = loadImage("./data/racing_menu_background.png");
 }
 
 
@@ -191,7 +192,8 @@ function fruitninjaPage() {
 function racingPage(){
   userNameField.hide();
   acceptBtn.hide();
-  background(100, 0, 0);
+  background(240,240 , 240);
+  image(RACING.image , 0 , height/2);
   webSocket.send("[" + yDif * -RACING.sensitivity + "," + xDif * -RACING.sensitivity + "," + zDif * -RACING.sensitivity + "," + shot + "," + "\""+ userName + "\""+ "]");
 }
 function mainmenuPage() {
