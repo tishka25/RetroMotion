@@ -169,8 +169,11 @@
  
       position = Util.increase(position, dt * speed, trackLength);
       
-
-
+      //Exit game when button is pressed on the controller
+      if(isExit){
+        window.location.pathname = "/mainmenu";
+      }
+      //
 
       if(turnCar<-0.2){
         keyLeft=true;
@@ -254,7 +257,7 @@
           currentLapTime = 0;
          var url = document.location.origin + "/" + 'insert/'+userName+'/'+lastLapTime;
 
-         httpGet(url);
+          httpGet(url);
           if (lastLapTime <= Util.toFloat(Dom.storage.fast_lap_time)) {
             Dom.storage.fast_lap_time = lastLapTime;
             updateHud('fast_lap_time', formatTime(lastLapTime));
