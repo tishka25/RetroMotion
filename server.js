@@ -70,8 +70,8 @@ io.sockets.on('connection', newConnection);
 
 function newConnection(socket) {
   console.log('new connection:' + socket.id);
-  socket.on('dataIn', msg);
-  function msg(data) {
+  socket.on('dataIn', msg1);
+  function msg1(data) {
     data.x = Number(curData[POSITION_X]);
     data.y = Number(curData[POSITION_Y]);
     data.z = Number(curData[POSITION_Z]);
@@ -81,16 +81,10 @@ function newConnection(socket) {
     pageName = data.page;
     io.sockets.emit('dataIn', data);
   }
+  
 
-  var tableName = "";
-
-  socket.on('requestTable', function (data) {
-    tableName = data.toString();
-    console.log(tableName);
-  });
-
-  socket.on('scores', msg);
-  function msg(data) {
+  socket.on('scores', msg2);
+  function msg2(data) {
       // client.query("SELECT * FROM scores WHERE gamename= '" + tableName + "' ORDER BY score DESC FETCH NEXT 5 ROW ONLY;", (err, res) => {
       client.query("SELECT * FROM scores ORDER BY score ;",(err, res)=>{  
       if (err) {

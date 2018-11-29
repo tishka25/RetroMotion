@@ -24,6 +24,7 @@ class Cursor{
       serverY=data.y;
       serverShot=data.shot;
       userName = data.user_name;
+      console.log(data);
     });
     //end
   }
@@ -33,7 +34,7 @@ class Cursor{
     if(!(this.positionX+serverX<0 ||
        this.positionX+serverX>width ||
        this.positionY+serverY<0 ||
-       this.positionY+serverY>height) && this.socket.connected){ //Warning
+       this.positionY+serverY>height)){ //Warning
       this.positionX+=serverX;
       this.positionY+=serverY;
     }
