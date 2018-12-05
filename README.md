@@ -13,6 +13,6 @@ https://hub.docker.com/r/noxid/ducks/
 https://codeincomplete.com/posts/javascript-racer-v2-curves/
 
 <h3>Developed by:</h3>
-<p><Peter Gerasimov (@petergerasimov)</p>
+<p><b>Peter Gerasimov (@petergerasimov)</p>
 <p><b>Alexander Petrov (@kocetomad) </p>
 <p><b>Teodor Stanishev (@tishka25)</p>
