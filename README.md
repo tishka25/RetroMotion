@@ -4,6 +4,7 @@
 <p><b>-European night of science 2018</p>
 <p><b>-Computer Space 2018</p>
 <p><b>-ELSYS 30th anniversary</p>
+[ELSYS school of engineering]: http://www.elsys-bg.org/
 
 
 
@@ -22,4 +23,3 @@ https://codeincomplete.com/posts/javascript-racer-v2-curves/
 <p><b>Alexander Petrov (@kocetomad) </p>
 <p><b>Teodor Stanishev (@tishka25)</p>
 
-[ELSYS school of engineering]:http://www.elsys-bg.org/
