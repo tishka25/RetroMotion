@@ -1,5 +1,9 @@
 # RetroMotion Oldschool games, modern experience
-<p>Retro motion is a gaming platform created with the intent of recreating vintage(and not so vintage) games and putting a slight twist on them by using modern smartphone motion controls</p>
+<p>Retro motion is a gaming platform created with the intent of recreating vintage(and not so vintage) games and putting a slight twist on them by using modern smartphone motion controls.The project was developed by students of [ELSYS school of engineering](http://www.elsys-bg.org/) and was showcased on various exhebitions, the most notable of which:</p>
+<p><b>European night of science 2018</p>
+<p><b>Computer Space 2018</p>
+<p><b>ELSYS 30th anniversary</p>
+
 
 
 <h1>Source code diagram </h1>
