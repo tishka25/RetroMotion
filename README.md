@@ -1,8 +1,6 @@
-# Duck Hunt Remake with Motion Controlls
+# RetroMotion Oldschool games, modern experience
 
-<p><b>Android app, Fruit Ninja remake, Team sweetheart</b> - Peter Gerasimov (@petergerasimov)</p>
-<p><b>Backend, Racing game , Team speaker</b> - Alexander Petrov (@kocetomad) </p>
-<p><b>Main menu, Duck hunt remake, Project director</b> - Teodor Stanishev (@tishka25)</p>
+
 
 <h1>Source code diagram </h1>
 
@@ -11,6 +9,10 @@
 <h2>Dockerhub repo</h2>
 https://hub.docker.com/r/noxid/ducks/
 
-
 <h2>Huge thanks to:</h2>
 https://codeincomplete.com/posts/javascript-racer-v2-curves/
+
+<h3>Developed by:</h3>
+<p><Peter Gerasimov (@petergerasimov)</p>
+<p><b>Alexander Petrov (@kocetomad) </p>
+<p><b>Teodor Stanishev (@tishka25)</p>
