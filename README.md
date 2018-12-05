@@ -1,5 +1,5 @@
 # RetroMotion Oldschool games, modern experience
-
+<p>Retro motion is a gaming platform created with the intent of recreating vintage(and not so vintage) games and putting a slight twist on them by using modern smartphone motion controls</p>
 
 
 <h1>Source code diagram </h1>
