@@ -111,6 +111,7 @@ app.use('/score', express.static("ScoreBoard"));
 app.use('/controller', express.static("WebController"));
 app.use('/games/fruitninja', express.static("Games/FruitNinja"));
 app.use('/games/racing', express.static("Games/Racing"));
+app.use('/games/cloth-testing' , express.static("Games/Cloth-testing"));
 
 
 const WebSocket = require('ws');
