@@ -24,7 +24,7 @@ class Grass {
             tail.push(stringPart[i].getTail());
         }
         for (var i = 0; i < particlesWidth; i++) {
-            head[i].set((i * particleStep ) + this.spawnOffset, height);
+            head[i].set((i * particleStep ) + this.spawnOffset, height - 50);
             head[i].lock();
             tail[i].unlock();
         }
