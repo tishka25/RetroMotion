@@ -5,7 +5,7 @@ var app = express()
 //Variable so that the controller knows which page you are on
 var pageName = null;
 //
-var server = app.listen(3000, listening);
+var server = app.listen(3001, listening);
 //Websockets array
 //CONSTANTS
 const POSITION_X = 0;
