@@ -72,7 +72,7 @@ var acceptBtn = null;
 
 
 function webSocketsSetup() {
-  var ip = document.location.host.replace('300', '400');
+  var ip = document.location.host.replace('3001', '4000');
   var webSocketURL = "ws://" + ip;
   webSocket = new WebSocket(webSocketURL);
   webSocket.onopen = function () {
@@ -97,7 +97,16 @@ function preload() {
   FRUIT_NINJA.image = loadImage("./data/fruit_ninja_background.png");
   RACING.image = loadImage("./data/racing_menu_background.png");
 }
+function lockCanvas(){
+  var canvas = document.querySelector('canvas');
+  
+  canvas.requestPointerLock = canvas.requestPointerLock ||
+  canvas.mozRequestPointerLock;
 
+  document.exitPointerLock = document.exitPointerLock ||
+  document.mozExitPointerLock;
+  canvas.requestPointerLock();
+}
 
 function setup() {
   noCanvas();
@@ -134,7 +143,10 @@ function setup() {
     //   isExit = false;
     // });
     //
-
+    var canvas = document.querySelector('canvas');
+    canvas.onclick = function(){
+      lockCanvas();
+    }
 
   //
 
@@ -155,6 +167,28 @@ function setup() {
     shot = false;
   });
 
+
+  document.addEventListener('mousedown', e => {
+    if(userName.length>1 && userName!=null){
+      shot = true;
+    }
+  });
+
+  document.addEventListener('mouseup', e => {
+    shot = false;
+  });
+  
+  let clearDataInterval = null;
+
+  window.addEventListener('mousemove', e => {
+      xDif = -e.movementY;
+      yDif = -e.movementX;
+      clearInterval(clearDataInterval);
+      clearDataInterval = setTimeout(_=>{
+        xDif = 0;
+        yDif = 0;
+      }, 10);
+  });
 
   webSocketsSetup();
 }
