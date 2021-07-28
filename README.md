@@ -1,4 +1,4 @@
-# Doesn't work
+# Works with a work arround
 <p>Javascript gyroscope API is deprecated and requires SSL</p>
 <p> <b> TODO: Make an Android and iOS app for the controller </p>
   
